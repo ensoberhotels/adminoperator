@@ -1,0 +1,21 @@
+on: 
+  push:
+    branches:
+      - master
+name: Deploy website on push
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v2
+    
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.2.0
+      with:
+        server: 184.168.115.11
+        username: ensober_dev@dev.ensober.com
+        password: bck_d7~{9Mt9
+        timeout_minutes : 1
+        max_attempts : 3
