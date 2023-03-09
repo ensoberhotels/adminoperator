@@ -14,7 +14,7 @@ class EmailCampaign extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'contact_ids','sr_location','sr_source','sr_contact_type', 'status'
+        'title', 'contact_ids','sr_location','sr_source','sr_contact_type', 'status','company_id','property_id','user_id'
     ];
 
     /**

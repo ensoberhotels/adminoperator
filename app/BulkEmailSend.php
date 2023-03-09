@@ -14,7 +14,7 @@ class BulkEmailSend extends Model
      * @var array
      */
     protected $fillable = [
-        'id','title', 'email_template_id', 'email_campaign_id', 'status'
+        'id','title', 'email_template_id', 'email_campaign_id', 'status','operator_id','company_id','property_id'
     ];
 
     /**

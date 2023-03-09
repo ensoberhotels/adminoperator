@@ -68,7 +68,7 @@
                     
             <form class="add_hotel_group_rate_form" id="add_hotel_group_rate_form" method="POST" action="/operator/bulkemailaction" >
             {{csrf_field()}}
-            <input type="hidden" name="operator_id" id="operator_id" value="{{ $operator_id[0] }}">
+            <input type="hidden" name="operator_id" id="operator_id" value="{{ $operator_id }}">
               <div class="row">
                     
               <div class="" id="details">  

@@ -260,7 +260,8 @@ class ItineraryController extends Controller
     public function makeActivityVoucher()
     {
         try {
-            $hotels = Hotel::All();
+        	$user=session()->get('operator');
+            $hotels = Hotel::where('company_id',$user['company_id'][0])->where('property_id',$user['property_id'][0])->get();
 			$citiesh = City::select('hotels.*','cities.id as city_id','cities.name as name')->join('hotels', 'cities.id', '=', 'hotels.city_id')->groupBy('cities.id')->get();
 			$venders = Vender::where('vender_type','EVENT VENDER')->orderBy('id' , 'desc')->get();
 			$activities = ActivityCat::orderBy('id' , 'desc')->get();
@@ -356,14 +357,15 @@ class ItineraryController extends Controller
     public function getAllActivityVouchers(Request $request)
     {
         try { 
+        	$user=session()->get('operator');
 			if($request->vender_id != '' && ($request->from == '' && $request->to == '')){
-				$vouchers = ActivityVoucher::where('vendor_id', $request->vender_id)->with('Vender')->paginate(10);
+				$vouchers = ActivityVoucher::where('company_id',$user['company_id'][0])->where('property_id',$user['property_id'][0])->where('vendor_id', $request->vender_id)->with('Vender')->paginate(10);
 			}elseif($request->vender_id == '' && $request->from != '' && $request->to != ''){
-				$vouchers = ActivityVoucher::whereBetween('date', array($request->from, $request->to))->with('Vender')->paginate(10);
+				$vouchers = ActivityVoucher::where('company_id',$user['company_id'][0])->where('property_id',$user['property_id'][0])->whereBetween('date', array($request->from, $request->to))->with('Vender')->paginate(10);
 			}elseif($request->vender_id != '' && $request->from != '' && $request->to != ''){
-				$vouchers = ActivityVoucher::where('vendor_id', $request->vender_id)->whereBetween('date', array($request->from, $request->to))->with('Vender')->paginate(10);
+				$vouchers = ActivityVoucher::where('company_id',$user['company_id'][0])->where('property_id',$user['property_id'][0])->where('vendor_id', $request->vender_id)->whereBetween('date', array($request->from, $request->to))->with('Vender')->paginate(10);
 			}else{
-				$vouchers = ActivityVoucher::with('Vender')->paginate(10);
+				$vouchers = ActivityVoucher::where('company_id',$user['company_id'][0])->where('property_id',$user['property_id'][0])->with('Vender')->paginate(10);
 			}
 			$venders = Vender::where('vender_type','EVENT VENDER')->orderBy('id' , 'desc')->get();
 			
@@ -1949,6 +1951,7 @@ class ItineraryController extends Controller
     public function generateActivityVoucher(Request $request){ 
 		try {
 			// Add activity voucher
+			$user=session()->get('operator');
 			if(@$request->activity_voucher_no != ''){
 				$voucher_no = $request->activity_voucher_no;
 				$activityvoucher = ActivityVoucher::where('voucher_no', $voucher_no)->first();
@@ -1982,6 +1985,8 @@ class ItineraryController extends Controller
 			$activityvoucher->pickup_point = $request->pickup_point;
 			$activityvoucher->ccemail = $request->ccemail;
 			$activityvoucher->no_of_jeeps = $request->no_of_jeeps;
+			$activityvoucher->company_id = $user['company_id'][0];
+			$activityvoucher->property_id = $user['property_id'][0];
 			$activityvoucher->save(); 
 				
 			
@@ -3578,8 +3583,8 @@ class ItineraryController extends Controller
      */
     public function addRoomBooking(){
         try {
-			$operator_id = session()->get('operator.id');
-			$operator = Operator::where('id', $operator_id)->first();
+			$operator_id = session()->get('operator');
+			$operator = Operator::where('id', $operator_id['id'][0])->first();
 			if($operator->room_inventory == 'Y'){
 				$hotels = Hotel::where('id', $operator->hotel)->get();
 			}else{
@@ -3610,6 +3615,7 @@ class ItineraryController extends Controller
 			}
 			//dd($hotel_operators);
 			$checkroominv = session()->get('operator.room_inventory');
+			$user=session()->get('operator');
 			$id = session()->get('operator.id');
 			$log_operator = Operator::where('id', $id)->first();
 			$log_operator_email = $log_operator->email;
@@ -3651,6 +3657,9 @@ class ItineraryController extends Controller
 				$RoomBookedDetails->payment_snapshot = $path;
 				$RoomBookedDetails->comment = $request->comment;
 				$RoomBookedDetails->comment_for_balace = $request->comment_for_balace;
+				$RoomBookedDetails->company_id=$user['company_id'][0];
+				$RoomBookedDetails->property_id=$user['property_id'][0];
+				$RoomBookedDetails->user_id=$user['id'][0];
 				$RoomBookedDetails->save();
 				
 				// Add inventory
@@ -3678,6 +3687,9 @@ class ItineraryController extends Controller
 					$RoomInventory->plan = $RoomBookedDetails->plan;;
 					$RoomInventory->no_of_room = $RoomBookedDetails->noofrooms;
 					$RoomInventory->staying_day = $staying_day;//$day;
+					$RoomInventory->company_id=$user['company_id'][0];
+					$RoomInventory->property_id=$user['property_id'][0];
+					$RoomInventory->user_id=$user['id'][0];
 					$RoomInventory->save(); 
 					
 					$date = date('Y-m-d', strtotime("+1 day", strtotime($date)));
@@ -5880,22 +5892,23 @@ class ItineraryController extends Controller
 	 */
 	public function getAllBooking(Request $request){ 
 		if (session()->exists('operator')) {
+			$user=session()->get('operator');
             $operator_id = session()->get('operator.id');
 			$operator = Operator::where('id', $operator_id)->first();
             $hotel_id = session()->get('operator.hotel');
             $hotel = $this->getHotelDetailsByIdWithFullInfo(@$hotel_id[0]);
 			$hotels = Hotel::All();
 			if($request->hotel_id != '' && ($request->from == '' && $request->to == '')){
-				$bookings = RoomBookedDetails::where('hotel', $request->hotel_id)->orderBy('check_in', 'ASC')->paginate(10);
+				$bookings = RoomBookedDetails::where('hotel', $request->hotel_id)->where('user_id', $user['id'][0])->where('company_id', $user['company_id'][0])->where('property_id', $user['property_id'][0])->orderBy('check_in', 'ASC')->paginate(10);
 			}elseif($request->hotel_id == '' && $request->from != '' && $request->to != ''){
-				$bookings = RoomBookedDetails::whereBetween('check_in', array($request->from, $request->to))->orderBy('check_in', 'ASC')->paginate(10);
+				$bookings = RoomBookedDetails::where('user_id', $user['id'][0])->where('company_id', $user['company_id'][0])->where('property_id', $user['property_id'][0])->whereBetween('check_in', array($request->from, $request->to))->orderBy('check_in', 'ASC')->paginate(10);
 			}elseif($request->hotel_id != '' && $request->from != '' && $request->to != ''){
-				$bookings = RoomBookedDetails::where('hotel', $request->hotel_id)->whereBetween('check_in', array($request->from, $request->to))->orderBy('check_in', 'ASC')->paginate(10);
+				$bookings = RoomBookedDetails::where('user_id', $user['id'][0])->where('company_id', $user['company_id'][0])->where('property_id', $user['property_id'][0])->where('hotel', $request->hotel_id)->whereBetween('check_in', array($request->from, $request->to))->orderBy('check_in', 'ASC')->paginate(10);
 			}else{
 				if($operator->room_inventory == 'Y'){
-					$bookings = RoomBookedDetails::where('hotel', $hotel_id)->orderBy('check_in', 'ASC')->paginate(10);
+					$bookings = RoomBookedDetails::where('user_id', $user['id'][0])->where('company_id', $user['company_id'][0])->where('property_id', $user['property_id'][0])->where('hotel', $hotel_id)->orderBy('check_in', 'ASC')->paginate(10);
 				}else{
-					$bookings = RoomBookedDetails::orderBy('check_in', 'ASC')->paginate(10);
+					$bookings = RoomBookedDetails::where('user_id', $user['id'][0])->where('company_id', $user['company_id'][0])->where('property_id', $user['property_id'][0])->orderBy('check_in', 'ASC')->paginate(10);
 				}
 			}
 			

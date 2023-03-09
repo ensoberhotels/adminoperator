@@ -14,7 +14,7 @@ class RoomInventory extends Model
      * @var array
      */
     protected $fillable = [
-		'room_booked_id', 'year', 'month','date', 'hotel_id', 'room_cat_id', 'no_of_room', 'staying_day','parent_booking_no','booking_status','source'
+		'room_booked_id', 'year', 'month','date', 'hotel_id', 'room_cat_id', 'no_of_room', 'staying_day','parent_booking_no','booking_status','source','company_id','property_id','user_id'
     ];
 
     /**

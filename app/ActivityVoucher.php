@@ -14,7 +14,7 @@ class ActivityVoucher extends Model
      * @var array
      */
     protected $fillable = [
-		'voucher_no','send_quotation_no','parent_booking_no','booked_no','client_name','adults','chields','total_visitors','date','time','slot','confirmed_by','source','booking_from','total_bill','advance_received','balance','booking_status','voucher_note','payment_source','date_of_advance','created_at','updated_at','activity_id','mobile','email','destination','payment_type','pickup_point','no_of_jeeps'
+		'voucher_no','send_quotation_no','parent_booking_no','booked_no','client_name','adults','chields','total_visitors','date','time','slot','confirmed_by','source','booking_from','total_bill','advance_received','balance','booking_status','voucher_note','payment_source','date_of_advance','created_at','updated_at','activity_id','mobile','email','destination','payment_type','pickup_point','no_of_jeeps','company_id','property_id'
     ];
 
     /**

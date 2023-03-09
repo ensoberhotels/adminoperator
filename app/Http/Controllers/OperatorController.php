@@ -318,10 +318,11 @@ class OperatorController extends Controller
      */
     public function bulkEmailSend()
     { 
-		$operator_id = session()->get('operator.id'); 
-        $emailtemplates = EmailTemplat::where('status', 'ACTIVE')->orderBy('id' , 'desc')->get();
-        $emailcampaigns = EmailCampaign::where('status', 'ACTIVE')->orderBy('id' , 'desc')->get();
-        $smtpemails = SMTPEmail::where('status', 'ACTIVE')->orderBy('id' , 'desc')->get();
+				$operator = session()->get('operator'); 
+				$operator_id=$operator['id'][0];
+        $emailtemplates = EmailTemplat::where('status', 'ACTIVE')->where('company_id',$operator['company_id'][0])->where('property_id',$operator['property_id'][0])->orderBy('id' , 'desc')->get();
+        $emailcampaigns = EmailCampaign::where('status', 'ACTIVE')->where('company_id',$operator['company_id'][0])->where('property_id',$operator['property_id'][0])->orderBy('id' , 'desc')->get();
+        $smtpemails = SMTPEmail::where('status', 'ACTIVE')->where('company_id',$operator['company_id'][0])->where('property_id',$operator['property_id'][0])->orderBy('id' , 'desc')->get();
         return view('operator.sendbulkemail', compact('emailtemplates','emailcampaigns', 'smtpemails','operator_id'));
     }
 	
@@ -339,7 +340,7 @@ class OperatorController extends Controller
 			'from' => 'required',
 			'to' => 'required',
 		]);
-		
+		$operator = session()->get('operator'); 
         $emailtemplates = EmailTemplat::where('status', 'ACTIVE')->where('id', $request->emailtemplate)->first();
         $emailcampaigns = EmailCampaign::where('status', 'ACTIVE')->where('id', $request->emailcampaign)->first();
 		
@@ -351,6 +352,8 @@ class OperatorController extends Controller
 		$emailsend->title = $emailtemplates->title;
 		$emailsend->email_template_id = $emailtemplates->id;
 		$emailsend->email_campaign_id = $emailcampaigns->id;
+		$emailsend->company_id=$operator['company_id'][0];
+		$emailsend->property_id=$operator['property_id'][0];
 		$emailsend->save();
 		
 		
@@ -454,7 +457,9 @@ class OperatorController extends Controller
 			$report->email_campaign_id = $emailcampaigns->id;
 			$report->contact_id = $email->contact_id;
 			$report->send_date_time = date('Y-m-d H:i:s');
-			
+			$report->company_id=$operator['company_id'][0];
+			$report->property_id=$operator['property_id'][0];
+			$report->user_id=$operator['id'][0];
 			//Send Email
 			$smtpe = SMTPEmail::where('status','ACTIVE')->where('id', $request->smtpemail)->first();
 			
@@ -631,10 +636,11 @@ class OperatorController extends Controller
      */
     public function bulkEmailReport()
     {
+    	$operator=session()->get('operator');
 		$operator_id = session()->get('operator.id'); 
 		$operator_name = session()->get('operator.name');
 		// Bulk email send report
-		$sendreports = BulkEmailSend::where('operator_id', $operator_id[0])->with('EmailCampaign')->with('EmailTemplat')->with('BulkEmailSendReport')->orderBy('id' , 'desc')->get();
+		$sendreports = BulkEmailSend::where('operator_id', $operator['id'][0])->where('company_id', $operator['company_id'][0])->where('property_id', $operator['property_id'][0])->with('EmailCampaign')->with('EmailTemplat')->with('BulkEmailSendReport')->orderBy('id' , 'desc')->get();
 		
         return view('operator.bulkemailreport', compact('sendreports','operator_name'));
     }
@@ -849,9 +855,10 @@ class OperatorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getAllSendQuotation(){
+    	$operator= session()->get('operator'); 
 		$operator_id = session()->get('operator.id'); 
 		$operator_name = session()->get('operator.name'); 
-		$sendquotations = SendQuotation::orderBy('id','DESC')->paginate(10);
+		$sendquotations = SendQuotation::where('company_id',$operator['company_id'][0])->where('property_id',$operator['property_id'][0])->where('user_id',$operator['id'][0])->orderBy('id','DESC')->paginate(10);
 		
         return view('operator.contactfollowup.sendquotationhistory', compact('sendquotations'));
     } 

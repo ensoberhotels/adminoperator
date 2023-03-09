@@ -14,7 +14,7 @@ class RoomBookedDetails extends Model
      * @var array
      */
     protected $fillable = [
-  'booked_no', 'hotel', 'room_type','check_in', 'check_out', 'client_name', 'agent_name', 'total_rooms', 'noofrooms', 'plan', 'adults','kidswd', 'kidswd', 'infant', 'confirmed_by', 'source', 'booking_from', 'advance_amount','payment_source', 'date_of_advance', 'comment', 'payment_snapshot', 'comment_for_balace','extra_bill','extra_bill_comment','total_bill','parent_booking_no','booking_status','cancel_reason'
+  'booked_no', 'hotel', 'room_type','check_in', 'check_out', 'client_name', 'agent_name', 'total_rooms', 'noofrooms', 'plan', 'adults','kidswd', 'kidswd', 'infant', 'confirmed_by', 'source', 'booking_from', 'advance_amount','payment_source', 'date_of_advance', 'comment', 'payment_snapshot', 'comment_for_balace','extra_bill','extra_bill_comment','total_bill','parent_booking_no','booking_status','cancel_reason','company_id','property_id','user_id'
     ];
 
     /**

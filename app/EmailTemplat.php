@@ -14,7 +14,7 @@ class EmailTemplat extends Model
      * @var array
      */
     protected $fillable = [
-        'id','title', 'template', 'status'
+        'id','title', 'template', 'status','company_id','property_id','user_id'
     ];
 
     /**

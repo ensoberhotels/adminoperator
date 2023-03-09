@@ -14,7 +14,7 @@ class BulkEmailSendReport extends Model
      * @var array
      */
     protected $fillable = [
-        'id','bulk_email_send_id', 'email_template_id', 'email_campaign_id', 'contact_id', 'send_date_time', 'send_status'
+        'id','bulk_email_send_id', 'email_template_id', 'email_campaign_id', 'contact_id', 'send_date_time', 'send_status','company_id','property_id','user_id'
     ];
 
     /**
