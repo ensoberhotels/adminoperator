@@ -66,7 +66,7 @@
         <div class="input-field col s12">
 			<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
           <button type="submit" class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s6" style="margin-right: 7px;width: 48%;">Login</button>
-          <a href="{{URL::to('/admin/forget-password')}}" class="btn waves-effect border-round btn-primary col s6" style="background-color: #303f9f;margin-left: 7px;width: 48%;">Forget Password</a>
+          <a href="{{URL::to('/admin/forget-password')}}" style="color: black;margin-left: 7px;width: 48%;">Forget Password</a>
         </div>
       </div>
       <!--<div class="row">
