@@ -27,8 +27,9 @@ class NotificationMessageResource extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $messages = NotificationMessage::orderBy('id' , 'desc')->get();
+    {   
+        $user=session()->get('admin');
+        $messages = NotificationMessage::orderBy('id' , 'desc')->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->get();
         return view('admin.notification_message.index', compact('messages'));
     }
 
@@ -59,15 +60,20 @@ class NotificationMessageResource extends Controller
         ]);
 
         try{
+            $user=session()->get('admin');
+            // $post = $request->all();
+            // $res = NotificationMessage::create( $post );
+            $post = new NotificationMessage();
+            $post->title	    =   $request->title;
+            $post->message   	=   $request->message;
+            $post->type    		=   $request->type;
+            $post->status     	=   $request->status;
+            $post->property_id  =   $user['id'][0];
+            $post->company_id   =   $user['comp_id'][0];
 
-            $post = $request->all();
-
-            $res = NotificationMessage::create( $post );
-			
+            $post->save();
             return back()->with('flash_success','Notification Message Saved Successfully');
-
         } 
-
         catch (ModelNotFoundException $e) {
             return back()->with('flash_error', 'Data Not Found');
         }
@@ -82,7 +88,7 @@ class NotificationMessageResource extends Controller
     public function show($id)
     {
         try {
-            return NotificationMessage::findOrFail($id);
+            return NotificationMessage::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
         } catch (ModelNotFoundException $e) {
             return $e;
         }
@@ -98,11 +104,16 @@ class NotificationMessageResource extends Controller
     public function edit($id)
     {
         try {
-
-            $message = NotificationMessage::findOrFail($id);            
-            return view('admin.notification_message.edit',compact('message'));
+            $user=session()->get('admin');
+            $message = NotificationMessage::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();            
+            if ($message) {
+                return view('admin.notification_message.edit',compact('message'));
+            } else {
+                return back()->with('flash_error', 'Notification Message Not Found');
+            }
+            
         } catch (ModelNotFoundException $e) {
-            return $e;
+            return back()->with('flash_error', 'Notification Message Not Found');
         }
     }
 
@@ -123,23 +134,24 @@ class NotificationMessageResource extends Controller
         ]);
 
         try{
-			$post = NotificationMessage::findOrFail($id);
+            $user=session()->get('admin');
+			$post = NotificationMessage::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
 			
             if( $post ) {
                 $post->title	    =   $request->title;
                 $post->message   	=   $request->message;
                 $post->type    		=   $request->type;
                 $post->status     	=   $request->status;
+
+                $post->save();
+                return redirect()->route('notificationmessage.index')->with('flash_success', 'Notification Message Updated Successfully'); 
             }
-            
-            $post->save();
-
-            return redirect()->route('notificationmessage.index')->with('flash_success', 'Notification Message Updated Successfully'); 
-            
+            else {
+                return redirect('admin/notificationmessage')->with('flash_error', 'Notification Message Not Found');
+            }
         } 
-
         catch (ModelNotFoundException $e) {
-            return back()->with('flash_error', 'Notification Message Not Found');
+            return redirect('admin/notificationmessage')->with('flash_error', 'Notification Message Not Found');
         }
     }
 
@@ -152,13 +164,15 @@ class NotificationMessageResource extends Controller
     public function destroy($id)
     {
         try { 
-
-            $post = NotificationMessage::findOrFail($id);
+            $user=session()->get('admin');
+            $post = NotificationMessage::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
             if( $post ) {
                 $post->delete();
-                return back()->with('message', 'Notification Message deleted successfully');
+                return back()->with('flash_success', 'Notification Message deleted successfully');
             }
-
+            else {
+                return back()->with('flash_error', 'Notification Message Not Found');
+            }
         } 
         catch (ModelNotFoundException $e) {
             return back()->with('flash_error', 'Notification Message Not Found');

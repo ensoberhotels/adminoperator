@@ -31,7 +31,8 @@ class VoucherResource extends Controller
      */
     public function index()
     {
-        $vouchers = Voucher::orderBy('id' , 'desc')->paginate(10);
+        $user=session()->get('admin');
+        $vouchers = Voucher::orderBy('id' , 'desc')->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->paginate(10);
         return view('admin.voucher.index', compact('vouchers'));
     }
 
@@ -59,7 +60,7 @@ class VoucherResource extends Controller
         ]);
 
         try{
-
+            $user=session()->get('admin');
             $post = $request->all();
 			$digits = 3;
 			$randam_num = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
@@ -67,13 +68,12 @@ class VoucherResource extends Controller
             if($request->hasFile('hotel_logo')) {
                 $post['hotel_logo'] = $request->hotel_logo->store('voucher');
             }
-			
+            $post['property_id']          =   $user['id'][0];
+            $post['company_id']           =   $user['comp_id'][0];
+
             $res = Voucher::create( $post );
-			
             return back()->with('flash_success','Voucher Saved Successfully');
-
         } 
-
         catch (ModelNotFoundException $e) {
             return back()->with('flash_error', 'Voucher Not Found');
         }
@@ -87,19 +87,30 @@ class VoucherResource extends Controller
      */
     public function pdfview($id)
     {
-        $voucher = Voucher::findOrFail($id);
-        return view('admin.voucher.view', compact('voucher'));
+        $user=session()->get('admin');
+        $voucher = Voucher::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
+        if ($voucher) {
+            return view('admin.voucher.view', compact('voucher'));
+        } else {
+            return back()->with('flash_error', 'Voucher Not Found');
+        }
     }
 	
 	public function downloadpdf($id){
-		$voucher = Voucher::findOrFail($id);
-		//return view('admin.voucher.dwnvoucher', compact('voucher'));
-		$pdf = PDF::loadView('admin.voucher.dwnvoucher', compact('voucher'));
-		return $pdf->download('pdfview.pdf');
+        $user=session()->get('admin');
+		$voucher = Voucher::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
+        if ($voucher) {
+            //return view('admin.voucher.dwnvoucher', compact('voucher'));
+            $pdf = PDF::loadView('admin.voucher.dwnvoucher', compact('voucher'));
+            return $pdf->download('pdfview.pdf');
+        } else {
+            return back()->with('flash_error', 'Voucher Not Found');
+        }
     }
 	
 	public function savePdfVoucher($id){
-		$voucher = Voucher::findOrFail($id);
+        $user=session()->get('admin');
+		$voucher = Voucher::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
 		$pdf = PDF::loadView('admin.voucher.dwnvoucher', compact('voucher'));
 		$path = storage_path('app/voucher/pdf');
 		$fileName = $voucher->reservation_no . '.' . 'pdf' ;
@@ -108,9 +119,10 @@ class VoucherResource extends Controller
     
 	public function sendVoucher(Request $request)
     {
+        $user=session()->get('admin');
 		$id = $request->voucher_id;
 		$email = $request->email;
-		$voucher = Voucher::findOrFail($id);
+		$voucher = Voucher::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
 		$this->savePdfVoucher($id);
 		$pdf_name = $voucher->reservation_no. '.' . 'pdf';
 		$text             = 'Dear Sir, <br> Please find voucher in attachment.';
@@ -157,8 +169,8 @@ class VoucherResource extends Controller
     public function edit($id)
     {
         try {
-
-            $voucher = Voucher::findOrFail($id);
+            $user=session()->get('admin');
+            $voucher = Voucher::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
             return view('admin.voucher.edit',compact('voucher'));
         } catch (ModelNotFoundException $e) {
             return $e;
@@ -173,9 +185,9 @@ class VoucherResource extends Controller
      */
     public function update(Request $request, $id)
     {
-
         try{
-			$post = Voucher::findOrFail($id);
+            $user=session()->get('admin');
+			$post = Voucher::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
 			
             if( $post ) {
                 $post->hotel_name	       	=   $request->hotel_name;
@@ -198,16 +210,16 @@ class VoucherResource extends Controller
                     Storage::delete($post->hotel_logo);
                     $post->hotel_logo = $request->hotel_logo->store('voucher');
                 }
+
+                $post->save();
+                return redirect()->route('voucher.index')->with('flash_success', 'Voucher Updated Successfully'); 
             }
-            
-            $post->save();
-
-            return redirect()->route('voucher.index')->with('flash_success', 'Amenity Updated Successfully'); 
-            
+            else {
+                return redirect('admin/voucher')->with('flash_error', 'Voucher Not Found');
+            }
         } 
-
         catch (ModelNotFoundException $e) {
-            return back()->with('flash_error', 'Amenity Not Found');
+            return redirect('admin/voucher')->with('flash_error', 'Voucher Not Found');
         }
     }
 
@@ -220,14 +232,16 @@ class VoucherResource extends Controller
     public function destroy($id)
     {
         try { 
-
-            $post = Voucher::findOrFail($id);
+            $user=session()->get('admin');
+            $post = Voucher::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
             if( $post ) {
                 Storage::delete($post->image);
                 $post->delete();
-                return back()->with('message', 'Voucher deleted successfully');
+                return back()->with('flash_success', 'Voucher deleted successfully');
             }
-
+            else {
+                return back()->with('flash_error', 'Voucher Not Found');
+            }
         } 
         catch (ModelNotFoundException $e) {
             return back()->with('flash_error', 'Voucher Not Found');

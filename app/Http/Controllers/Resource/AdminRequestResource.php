@@ -33,7 +33,8 @@ class AdminRequestResource extends Controller
      */
     public function index()
     {
-        $optrequests = AdminRequest::orderBy('id' , 'desc')->with('operator')->with('contact')->paginate(10);
+        $user=session()->get('admin');
+        $optrequests = AdminRequest::orderBy('id' , 'desc')->with('operator')->with('contact')->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->paginate(10);
         //dd($optrequests);
         return view('admin.request', compact('optrequests'));
     }

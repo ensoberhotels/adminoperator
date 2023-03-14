@@ -205,7 +205,8 @@ class AdminController extends Controller
 	 * @return array
 	 */
 	public function getEmailCampaign(){
-		$datas = EmailCampaign::orderBy('id' , 'desc')->get();
+		$user=session()->get('admin');
+		$datas = EmailCampaign::orderBy('id' , 'desc')->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->get();
 		return view('admin/emailcampaign', compact('datas'));
 	}
 	
@@ -215,10 +216,14 @@ class AdminController extends Controller
 	 * @return array
 	 */
 	public function deleteEmailCampaign($id){
-		$EmailCampaign = EmailCampaign::find($id);
-		$EmailCampaign->delete();
-		$datas = EmailCampaign::All();
-		return redirect('/admin/emailcampaign');
+		$user=session()->get('admin');
+		$EmailCampaign = EmailCampaign::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
+		if ($EmailCampaign) {
+			$EmailCampaign->delete();
+			return back()->with('flash_success', 'Email Campaign deleted successfully');
+		} else {
+			return back()->with('flash_error', 'Email Campaign Not Found');
+		}
 	}
 	
 	
@@ -229,6 +234,7 @@ class AdminController extends Controller
      */
     public function addEmailList(Request $request)
     {
+        $user=session()->get('admin');
         if ( ($request->has('location') && $request->input('location')!= '') || ($request->has('contact_type') && $request->input('contact_type')!= '') || ($request->has('source') && $request->input('source')!= '') ) {
             
         $query = Contacts::query();
@@ -245,10 +251,10 @@ class AdminController extends Controller
             $Contacts = $query->with('asignContact')->orderBy('id' , 'desc')->get();
         }else{ 
             //$Contacts = Contacts::with('asignContact')->orderBy('id' , 'desc')->take(100)->get();
-            $Contacts = Contacts::with('asignContact')->orderBy('id' , 'desc')->get();
+            $Contacts = Contacts::with('asignContact')->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->orderBy('id' , 'desc')->get();
         }
-        $contact_types = Contacts::distinct()->get(['contact_type']);
-        $sources  = Contacts::distinct()->get(['source']);
+        $contact_types = Contacts::distinct()->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->get(['contact_type']);
+        $sources  = Contacts::distinct()->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->get(['source']);
         $Operators = Operator::where('status', 'ACTIVE')->get();
         return view('admin.addemaillist', compact('Contacts','contact_types','sources','Operators'));
     }
@@ -260,45 +266,50 @@ class AdminController extends Controller
 	 * @return array
 	 */
 	public function updateEmailCampaign($id){
-		$EmailCampaign = EmailCampaign::find($id);
-		
-		$query = Contacts::query();
-		
-		if($EmailCampaign->sr_location == '' && $EmailCampaign->sr_contact_type == '' && $EmailCampaign->sr_source == ''){
-			return redirect('/admin/emailcampaign');
-		}
+        $user=session()->get('admin');
+		$EmailCampaign = EmailCampaign::where('id',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
+		if ($EmailCampaign) {
+			$query = Contacts::query();
 			
-		if($EmailCampaign->sr_location != ''){
-		  $query->where('location','like', '%'. $EmailCampaign->sr_location.'%');
-		}
-		if( $EmailCampaign->sr_contact_type != ''){
-		  $query->where('contact_type', $EmailCampaign->sr_contact_type);
-		}
-		if($EmailCampaign->sr_source != ''){
-		  $query->where('source', $EmailCampaign->sr_source);
-		}
-		$Contacts = $query->select('id')->orderBy('id' , 'desc')->get();
-		foreach($Contacts as $Contact){
-			$ids[] = $Contact->id;
-		}
-		$Contacts = implode(',',$ids);
-		$EmailCampaign->contact_ids = $Contacts; 
-		$EmailCampaign->save();
-		
-		EmailList::where('email_campaign_id', $EmailCampaign->id)->delete();
-		foreach($ids as $contact_id){
-			$contact = Contacts::where('id', $contact_id)->first();
-			$EmailList = new EmailList();
-			$EmailList->email_campaign_id = $EmailCampaign->id;
-			$EmailList->contact_id = $contact->id;
-			$EmailList->co_name = $contact->name;
-			$EmailList->co_email = $contact->email;
-			$EmailList->co_mobile = $contact->mobile;
-			$EmailList->status = 'ACTIVE';
-			$EmailList->save();
-		}
-		
-		return redirect('/admin/emailcampaign');
+			if($EmailCampaign->sr_location == '' && $EmailCampaign->sr_contact_type == '' && $EmailCampaign->sr_source == ''){
+				return redirect('/admin/emailcampaign');
+			}
+				
+			if($EmailCampaign->sr_location != ''){
+			$query->where('location','like', '%'. $EmailCampaign->sr_location.'%');
+			}
+			if( $EmailCampaign->sr_contact_type != ''){
+			$query->where('contact_type', $EmailCampaign->sr_contact_type);
+			}
+			if($EmailCampaign->sr_source != ''){
+			$query->where('source', $EmailCampaign->sr_source);
+			}
+			$Contacts = $query->select('id')->orderBy('id' , 'desc')->get();
+			foreach($Contacts as $Contact){
+				$ids[] = $Contact->id;
+			}
+			$Contacts = implode(',',$ids);
+			$EmailCampaign->contact_ids = $Contacts; 
+			$EmailCampaign->save();
+			
+			EmailList::where('email_campaign_id', $EmailCampaign->id)->delete();
+			foreach($ids as $contact_id){
+				$contact = Contacts::where('id', $contact_id)->first();
+				$EmailList = new EmailList();
+				$EmailList->email_campaign_id = $EmailCampaign->id;
+				$EmailList->contact_id = $contact->id;
+				$EmailList->co_name = $contact->name;
+				$EmailList->co_email = $contact->email;
+				$EmailList->co_mobile = $contact->mobile;
+				$EmailList->property_id = $contact->property_id;
+				$EmailList->company_id = $contact->company_id;
+				$EmailList->status = 'ACTIVE';
+				$EmailList->save();
+			}
+			return back()->with('flash_success', 'Email Campaign Updated successfully');
+		} else {
+			return back()->with('flash_error', 'Email Campaign Not Found');
+		}	
 	}
 
 	/**
@@ -316,7 +327,8 @@ class AdminController extends Controller
 	 * @return array
 	 */
 	public function contactFollowUpReport(Request $request){
-		$Operators = Operator::where('status', 'ACTIVE')->get();
+		$user=session()->get('admin');
+		$Operators = Operator::where('status', 'ACTIVE')->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->get();
 		return view('admin/contactfollowupreport', compact('Operators'));
 	}
 	
@@ -326,7 +338,8 @@ class AdminController extends Controller
 	 * @return array
 	 */
 	public function generateMonthlyInvoice(Request $request){
-		$hotels = Hotel::All();
+		$user=session()->get('admin');
+		$hotels = Hotel::where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->get();
 		return view('admin/generatemonthlyinvoice', compact('hotels'));
 	}
 	
@@ -485,7 +498,8 @@ class AdminController extends Controller
 	 * @return array
 	 */
 	public function getWebsiteEnquiry(){
-		$response = WebsiteEnquiry::with('getUser')->get();
+        $user=session()->get('admin');
+		$response = WebsiteEnquiry::with('getUser')->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->get();
 		return view('admin/websiteenquirylist', compact('response'));
 	}
 	

@@ -970,12 +970,15 @@ public function GetLeadDetail(Request $request){
     public function createCampaign(Request $request)
     {       
         try {
+            $user=session()->get('admin');
             $assign_contact = new EmailCampaign();
 			$assign_contact->title        =   $request->title;
 			$assign_contact->contact_ids  =   implode(',',$request->contact_ids);
 			$assign_contact->sr_location  =   $request->location;
 			$assign_contact->sr_contact_type    =   $request->contact_type;
 			$assign_contact->sr_source    =   $request->source; 
+            $assign_contact->property_id          =   $user['id'][0];
+            $assign_contact->company_id           =   $user['comp_id'][0];
 			$assign_contact->save(); 
 			foreach($request->contact_ids as $contact_id){
 				$contact = Contacts::where('id', $contact_id)->first();
@@ -985,6 +988,8 @@ public function GetLeadDetail(Request $request){
 				$EmailList->co_name = $contact->name;
 				$EmailList->co_email = $contact->email;
 				$EmailList->co_mobile = $contact->mobile;
+                $EmailList->property_id =  $contact->property_id;
+                $EmailList->company_id  =  $contact->company_id;
 				$EmailList->status = 'ACTIVE';
 				$EmailList->save();
 			}

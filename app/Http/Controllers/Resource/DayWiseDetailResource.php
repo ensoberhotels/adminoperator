@@ -30,8 +30,9 @@ class DayWiseDetailResource extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $datas = DayWiseDetail::orderBy('id' , 'desc')->with('getDistination')->groupBy('code')->paginate(10);
+    {   
+        $user=session()->get('admin');
+        $datas = DayWiseDetail::orderBy('id' , 'desc')->with('getDistination')->groupBy('code')->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->paginate(10);
         return view('admin.daywisedetails.index', compact('datas'));
     }
 
@@ -41,7 +42,8 @@ class DayWiseDetailResource extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
-		$cities = City::where('status', 'ACTIVE')->where('country_id', '96')->get();
+		// $cities = City::where('status', 'ACTIVE')->where('country_id', '96')->get();
+		$cities = City::where('status', 'ACTIVE')->get();
         return view('admin.daywisedetails.create', compact('cities'));
     }
 
@@ -61,7 +63,7 @@ class DayWiseDetailResource extends Controller
         ]);
 
         try{
-			
+            $user=session()->get('admin');
             //if($request->HasFile('image')){
                 $x = 0;
                 $uniques = range(10000, 99999);
@@ -89,6 +91,8 @@ class DayWiseDetailResource extends Controller
 					$DayWiseDetail->created_by = 'Admin';
 					$DayWiseDetail->last_udated_by = 'Admin';
 					$DayWiseDetail->status = 'ACTIVE';
+                    $DayWiseDetail->property_id  =  $user['id'][0];
+                    $DayWiseDetail->company_id   =  $user['comp_id'][0];
 					$DayWiseDetail->save();
                     $x++;
 				}
@@ -109,10 +113,16 @@ class DayWiseDetailResource extends Controller
     public function edit($id)
     {
         try {
-			$data = DayWiseDetail::where('code',$id)->first();
-			$details = DayWiseDetail::where('code',$id)->get();
-            $cities = City::where('status', 'ACTIVE')->where('country_id', '96')->get();
-            return view('admin.daywisedetails.edit',compact(['cities','data','details']));
+            $user=session()->get('admin');
+			$data = DayWiseDetail::where('code',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
+            if ($data) {
+                $details = DayWiseDetail::where('code',$id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->get();
+                $cities = City::where('status', 'ACTIVE')->where('country_id', '96')->get();
+                return view('admin.daywisedetails.edit',compact(['cities','data','details']));
+            } else {
+                return back()->with('flash_error', 'Day Wish Details Not Found');
+            }
+            
         } catch (ModelNotFoundException $e) { 
             return $e;
         }
@@ -127,18 +137,17 @@ class DayWiseDetailResource extends Controller
     public function update(Request $request, $id)
     {
         try{
+            $user=session()->get('admin');
             $x=0;
 			foreach($request->description as $description){
-                $DayWiseDetail = DayWiseDetail::where('id', $request->id[$x])->first();
+                $DayWiseDetail = DayWiseDetail::where('id', $request->id[$x])->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
                 $DayWiseDetail->description = $description;	
                 $DayWiseDetail->change_des = $request->change_des[$x];;	
                 $DayWiseDetail->last_udated_by = 'Admin';
                 $DayWiseDetail->save();
                 $x++;
             } 
-
             return redirect()->route('daywisedetail.index')->with('flash_success', 'Day Wise Itinerary Updated Successfully'); 
-            
         } 
         catch (ModelNotFoundException $e) {
             return back()->with('flash_error', 'Activity Not Found');
@@ -154,10 +163,15 @@ class DayWiseDetailResource extends Controller
     public function destroy($id)
     {
         try { 
-
-            $post = DayWiseDetail::where('code', $id)->delete();
-            //Storage::delete($post->image);
-            return back()->with('message', 'Day Wise Itinerary deleted successfully');
+            $user=session()->get('admin');
+            $DayWiseDetail = DayWiseDetail::where('id', $id)->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->first();
+            if ($DayWiseDetail) {
+                $post = DayWiseDetail::where('code', $id)->delete();
+                //Storage::delete($post->image);
+                return back()->with('message', 'Day Wise Itinerary deleted successfully');
+            } else {
+                return back()->with('flash_error', 'Day Wise Itinerary Not Found'); 
+            }
         } 
         catch (ModelNotFoundException $e) {
             return back()->with('flash_error', 'Day Wise Itinerary Not Found'); 
@@ -174,7 +188,8 @@ class DayWiseDetailResource extends Controller
     public function getCityList()
     {
         try{
-            $cities = City::where('status', 'ACTIVE')->where('country_id','96')->get();
+            // $cities = City::where('status', 'ACTIVE')->where('country_id','96')->get();
+            $cities = City::where('status', 'ACTIVE')->get();
             return view('admin.daywisedetails.city',compact('cities'));
         } 
         catch (ModelNotFoundException $e) {
