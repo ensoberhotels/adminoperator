@@ -12,6 +12,10 @@ use App\Http\Controllers\Controller;
 use App\AdminRequest;
 use Storage;
 use App\Hotel;
+use App\MenuMaster;
+use App\OptFilePrivilage;
+use App\CompanyPrivilage;
+use Illuminate\Support\Facades\DB;
 
 class OperatorResource extends Controller
 {
@@ -32,7 +36,7 @@ class OperatorResource extends Controller
      */
     public function index(){
         $user=session()->get('admin');
-        //dd($user);
+        // dd($user);
         $operators = Operator::orderBy('id' , 'desc')->with('countryName')->with('hotelName')->with('stateName')->with('cityName')->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->paginate(10);
         return view('admin.operator.index', compact('operators'));
     }
@@ -43,11 +47,18 @@ class OperatorResource extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
-        // $user=session()->get('admin');
+        $user=session()->get('admin');
         // dd($user);
 		$hotels = Hotel::All();
         $Countries = Country::where('status', 'ACTIVE')->get();
-        return view('admin.operator.create',compact('Countries','hotels'));
+        $menu      = CompanyPrivilage::
+                    select('sua_menu_masters.id', 'sua_menu_masters.name')
+                    ->join('sua_menu_masters', 'sua_menu_masters.id', '=', 'sua_company_privileges.menu_id')
+                    ->where('sua_company_privileges.company_id', $user['comp_id'][0])
+                    ->where('sua_company_privileges.permission', 'Y')
+                    ->get();
+        // $menu      = MenuMaster::orderBy('id','ASC')->where('status', 'ACTIVE')->get();
+        return view('admin.operator.create',compact('Countries','hotels', 'menu'));
     }
 
     /** 
@@ -58,6 +69,8 @@ class OperatorResource extends Controller
      */
     public function store(Request $request)
     {
+        // Begin a transaction
+        DB::beginTransaction();
         $this->validate($request, [
             'name'          => 'required',
             'email'         => 'required|email|unique:operators',
@@ -68,13 +81,14 @@ class OperatorResource extends Controller
         ]);
       try{
         $user=session()->get('admin');
-        //dd($user);
-            // $post = $request->all();
-   //          $post['password'] = bcrypt($post['password']);
+        // dd($user);
+            $post = $request->all();
+            // dd($post);
+            // $post['password'] = bcrypt($post['password']);
 			if(isset($request->assigned_hotels)){
 				$assigned_hotels = implode(',', $request->assigned_hotels);
 			}
-        $post = new Operator;
+                $post = new Operator;
                 $post->name         =   $request->name;
                 $post->email        =   $request->email;
                 if(!empty($request->password)){
@@ -95,12 +109,29 @@ class OperatorResource extends Controller
                 $post->save();
             
 			if($post){
-            return back()->with('flash_success','Operator Saved Successfully');
-}
-
+                // function  for save Operator Menus privilege
+			    if(isset($request->menus)){
+                    $count  =   count($request->menus);
+                    for ($x = 0; $x < $count; $x++)
+                    {   
+                        $data = new OptFilePrivilage;
+                        $data->operator_id      = $post->id;
+                        $data->menu_id          = $request->menus[$x];
+                        $data->company_id       = $user['comp_id'][0];
+                        $data->admin_id         = $user['id'][0];
+                        $data->create_by        = $user['id']['0'];
+                        $data->save();
+                    }
+                }
+                // Commit the transaction
+                DB::commit();
+                return back()->with('flash_success','Operator Saved Successfully');
+            }
         } 
 
-        catch (ModelNotFoundException $e) {
+        catch (\Throwable $e) {
+            // An error occured; cancel the transaction...
+            DB::rollback();
             return back()->with('flash_error', 'Operator Not Found');
         }
     }
@@ -130,13 +161,21 @@ class OperatorResource extends Controller
     public function edit($id)
     {
         try {
-
+            $user=session()->get('admin');
             $operator = Operator::findOrFail($id);
             $Countries = Country::where('status', 'ACTIVE')->get();
             $Regions = Region::where('country_id', $operator->country_id)->where('status', 'ACTIVE')->get();
             $Citys = City::where('region_id', $operator->region_id)->where('status', 'ACTIVE')->get();
 			$hotels = Hotel::All();
-            return view('admin.operator.edit',compact('hotels','operator', 'Countries', 'Regions', 'Citys')); 
+            $menu      = CompanyPrivilage::
+                        select('sua_menu_masters.id', 'sua_menu_masters.name')
+                        ->join('sua_menu_masters', 'sua_menu_masters.id', '=', 'sua_company_privileges.menu_id')
+                        ->where('sua_company_privileges.company_id', $user['comp_id'][0])
+                        ->where('sua_company_privileges.permission', 'Y')
+                        ->get();
+            // $menu      = MenuMaster::with('CheckedMenuDetails')->orderBy('id','ASC')->where('status', 'ACTIVE')->get();
+            // dd($menu);
+            return view('admin.operator.edit',compact('hotels','operator', 'Countries', 'Regions', 'Citys', 'menu'));
         } catch (ModelNotFoundException $e) {
             return $e;
         }
@@ -150,6 +189,8 @@ class OperatorResource extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Begin a transaction
+        DB::beginTransaction();
         $this->validate($request, [
             'name'          => 'required',
             'email'         => 'required|email|unique:operators,email,'.$id,
@@ -183,11 +224,32 @@ class OperatorResource extends Controller
             
             $post->save();
 
+            $delete = OptFilePrivilage::where('operator_id', $post->id)->delete();
+
+            // function  for save Operator Menus privilege
+            if(isset($request->menus)){
+                $count  =   count($request->menus);
+                for ($x = 0; $x < $count; $x++)
+                {   
+                    $data = new OptFilePrivilage;
+                    $data->operator_id      = $post->id;
+                    $data->menu_id          = $request->menus[$x];
+                    $data->company_id       = $user['comp_id'][0];
+                    $data->admin_id         = $user['id'][0];
+                    $data->create_by        = $user['id']['0'];
+                    $data->save();
+                }
+            }
+
+            // Commit the transaction
+            DB::commit();
             return redirect()->route('operator.index')->with('flash_success', 'Operator Updated Successfully'); 
             
         } 
 
-        catch (ModelNotFoundException $e) {
+        catch (\Throwable $e) {
+            // An error occured; cancel the transaction...
+            DB::rollback();
             return back()->with('flash_error', 'Operator Not Found');
         }
     }
