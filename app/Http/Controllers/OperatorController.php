@@ -101,6 +101,13 @@ class OperatorController extends Controller
 				$request->session()->push('operator.room_inventory', $operator->room_inventory);
 				$request->session()->push('operator.company_id', $operator->company_id);
 				$request->session()->push('operator.property_id', $operator->property_id);
+				$request->session()->put('admin', $operator->name);
+				$request->session()->push('admin.name', $operator->name);
+				$request->session()->push('admin.id', $operator->id);
+				$request->session()->push('admin.room_inventory', $operator->room_inventory);
+				$request->session()->push('admin.company_id', $operator->company_id);
+				$request->session()->push('admin.property_id', $operator->property_id);
+				$request->session()->push('admin.login_type', 'O');
 				if($operator->room_inventory == 'Y'){
 					//return redirect('operator/addroombook');
 					$request->session()->push('operator.hotel', $operator->hotel);

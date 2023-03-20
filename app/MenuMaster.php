@@ -25,5 +25,8 @@ class MenuMaster extends Model
     // protected $hidden = [
     //     'password', 'remember_token',
     // ];
+    function childs() {
+        return $this->hasMany('App\MenuMaster','parent_menu_id','id');
+    }
 	
 }
