@@ -52,6 +52,7 @@ use App\ITIDayWiseItinerary;
 use App\ITIActivitiPriceList;
 use App\ITIHotelPriceList;
 use App\ITITranportPriceList;
+use App\OptFilePrivilage;
 
 use Illuminate\Support\Facades\Session;
 
@@ -123,5 +124,16 @@ if (!function_exists('getHotelReceivedAmount')) {
     }
 }
 
-
+// This function use for get the city name by id
+if (!function_exists('getMenuPrev')) {
+    function getMenuPrev($id, $operator) {
+        $menu = OptFilePrivilage::where('menu_id',$id)->where('operator_id', $operator)->first();
+        if ($menu) {
+            return 'true';
+        }
+        else {
+            return 'false';
+        }
+    }
+}
 ?>

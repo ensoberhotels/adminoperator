@@ -3,7 +3,15 @@
 @section('title', 'Ensober Admin Dashboard ')
 
 @section('styles')
-    
+    <style>
+		.menus{
+			padding-right: 25px !important;
+			font-size: 11px !important;
+		}
+		.oneMenu{
+			width: 12px !important;
+		}
+	</style>
 @endsection
 
 @section('content')
@@ -135,6 +143,24 @@
 			  </button>
 			</div>
             </div>
+
+			<div class="col-12">
+				<table>
+					<thead>
+						<tr>
+							<th>Menus</th>
+							<th><input type="checkbox" id="allChecked" checked style="position: relative; opacity: 6;" class="form-control check_hotel" />Action</th>
+						</tr>
+					</thead>
+				</table>
+				<ul>
+				@foreach($menu as $menus)
+					<div class="col m3 s4 menus">
+						{{$menus->name}} <input type="checkbox" value="{{$menus->id}}" name="menus[]" checked style="position: relative; opacity: 6; float:right;" class="form-control check_hotel oneMenu" />
+					</div>
+				@endforeach
+				</ul>
+			</div>
           </form>
         </div>
       </div>
@@ -172,6 +198,17 @@
 					jQuery(".room_status_hotel").hide();
 				}
 			});
+		});
+
+		// function for Check and uncheck all at a Time
+		jQuery(document).on('click', '#allChecked', function(){
+			if(jQuery(this).is(':checked'))
+			{
+				jQuery('.oneMenu').prop('checked', true);
+			}
+			else{
+				jQuery('.oneMenu').prop('checked', false);
+			}
 		});
 	</script>
 @endsection

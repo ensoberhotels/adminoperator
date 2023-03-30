@@ -59,14 +59,14 @@
               <input type="checkbox" />
               <span>Remember Me</span>
             </label>
+            <a href="{{URL::to('/admin/forget-password')}}" style="color: blue;float: right;margin-right: -29px;width: 48%;">Forget Password</a>
           </p>
         </div>
       </div>
       <div class="row">
-        <div class="input-field col s12">
+        <div class="input-field col s12" style="text-align: center !important">
 			<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-          <button type="submit" class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s6" style="margin-right: 7px;width: 48%;">Login</button>
-          <a href="{{URL::to('/admin/forget-password')}}" style="color: black;margin-left: 7px;width: 48%;">Forget Password</a>
+          <button type="submit" class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s6" style="float: none !important;">Login</button>
         </div>
       </div>
       <!--<div class="row">
