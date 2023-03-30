@@ -52,6 +52,7 @@
           <label for="password">Password</label>
         </div>
       </div>
+      <span id="Massage" style="color: red;" min-height="10px" max-height="10px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@if(Session::has('Failed')){{Session::get('Failed')}}@endif</span>
       <div class="row">
         <div class="col s12 m12 l12 ml-2 mt-1">
           <p>

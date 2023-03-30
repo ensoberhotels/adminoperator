@@ -114,7 +114,7 @@ class AdminController extends Controller
 				$request->session()->push('admin.login_type', 'A');
 				return redirect('admin/dashboard');
 			}else{
-				return redirect('admin');
+				return redirect('admin')->with('Failed', 'Username or password is incorrect');
 			}
 		}catch(Exseption $e){
 			return response()->json(['error' => $e->getMessage()]);

@@ -48,7 +48,7 @@ class OperatorResource extends Controller
      */
     public function create(){
         $user=session()->get('admin');
-        // dd($user);
+        dd($user);
 		$hotels = Hotel::All();
         $Countries = Country::where('status', 'ACTIVE')->get();
         $menu      = CompanyPrivilage::
