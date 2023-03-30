@@ -110,7 +110,8 @@ class AdminController extends Controller
 				$request->session()->regenerate();
 				$request->session()->put('admin', $admin->name);
 				$request->session()->push('admin.id', $admin->id);
-				$request->session()->push('admin.comp_id', $admin->comp_admin_id);
+				$request->session()->push('admin.comp_admin_id', $admin->comp_admin_id);
+				$request->session()->push('admin.comp_id', $admin->comp_id);
 				$request->session()->push('admin.login_type', 'A');
 				return redirect('admin/dashboard');
 			}else{
