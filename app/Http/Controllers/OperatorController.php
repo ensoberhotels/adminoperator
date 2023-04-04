@@ -118,7 +118,7 @@ class OperatorController extends Controller
 					return redirect('operator/dashboard');
 				}
 			}else{
-				return redirect('operator');
+				return redirect('operator')->with('Failed', 'Username or password is incorrect');
 			}
 			
 		}catch(Exseption $e){

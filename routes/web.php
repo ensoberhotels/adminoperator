@@ -505,3 +505,5 @@ Route::get('/clear-cache', function() {
     return "<h1 style='text-align: center;'>Cache cleared successfully !</h1>";
 });
 
+// Direct login by Campany Admin in Admin dashboard
+Route::post('/login-bycadmin-{id}', 'AdminController@bycadmin');
