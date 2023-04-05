@@ -1485,7 +1485,9 @@ class ItineraryController extends Controller
 			}
 			
 			$quotation_rate .= '</tbody></table></form>';
-			
+			$user=session()->get('operator');
+			//dd($user);
+			$company=DB::table('sua_company_master')->where('id',$user['company_id'][0])->first();
 			//$meals = $this->getNoOfBLD($cp,$map,$ap); 
 			if($request->final_cost <= 0){
 				$final_cost = array_sum($total_cost);
@@ -1501,9 +1503,9 @@ class ItineraryController extends Controller
 			$quo_detail = SendQuotation::where('send_quotation_no', $send_quotation_no)->with('QuotationRate')->get();
 			//dd($send_quotation_no);
 			if($request->quotation_type == 'quotation'){
-				$subject = 'Ensober - Quotation For - '.$hotel->hotel_name.' | '.$lead_detail->name.' | '.date("d M'y", strtotime($quo_detail[0]->checkin)); 
+				$subject = $company->company_name.' - Quotation For - '.$hotel->hotel_name.' | '.$lead_detail->name.' | '.date("d M'y", strtotime($quo_detail[0]->checkin)); 
 			}elseif($request->quotation_type == 'confirmation'){
-				$subject = 'Ensober - Confirmation For - '.$hotel->hotel_name.' | '.$lead_detail->name.' | '.date("d M'y", strtotime($quo_detail[0]->checkin)); 
+				$subject = $company->company_name.' - Confirmation For - '.$hotel->hotel_name.' | '.$lead_detail->name.' | '.date("d M'y", strtotime($quo_detail[0]->checkin)); 
 			}elseif($request->quotation_type == 'voucher'){
 				$subject = 'Ensober - Reservation Voucher For - '.$hotel->hotel_name.' | '.$lead_detail->name.' | '.date("d M'y", strtotime($quo_detail[0]->checkin)); 
 			}
@@ -1695,18 +1697,17 @@ class ItineraryController extends Controller
 										
 										<footer>
 											<div class="iti_foo_left">
-												<img src="'.url('/public/asset/images/Ensober.jpg').'"/>
+												<img src="'.url('/public/asset/company_logo/').$company->logo.'"/>
 											</div>
 											<div class="iti_foo_middil">
-												<b>Ensober Hotels</b><br>
-												Luxury Hotels in Uttarakhand <br> Corbett | Nainital | Haridwar <br> 
-												I-1804, SAMRIDHI GRAND AVENUE, NOIDA, DELHI-NCR
+												<b>'.$company->company_name.'</b><br>
+												'. $company->company_name.'
 											</div>
 											<div class="iti_foo_right">
 												<b>Contact Information</b><br>
-												Telephone : 8383908656, 8368643151<br>
-												Email : raj@ensoberhotels.com; pragya@ensoberhotels.com<br>
-												Web: <a href="http://www.ensoberhotels.com/" target="_blank">http://www.ensoberhotels.com/</a>
+												Telephone : '. $company->mobile.'  '. $company->phone.'<br>
+												Email : '. $company->email.'<br>
+												Web: <a href="'. $company->website.'" target="_blank">'. $company->website.'</a>
 											</div>
 										</footer>
 										

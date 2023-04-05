@@ -36,7 +36,7 @@ class OperatorResource extends Controller
      */
     public function index(){
         $user=session()->get('admin');
-        // dd($user);
+         dd($user);
         $operators = Operator::orderBy('id' , 'desc')->with('countryName')->with('hotelName')->with('stateName')->with('cityName')->where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->paginate(10);
         return view('admin.operator.index', compact('operators'));
     }
