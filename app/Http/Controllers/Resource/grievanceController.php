@@ -13,6 +13,9 @@ use App\CompanyMaster;
 use App\Operator;
 use App\grievance;
 use Storage;
+use App\SMTPEmail;
+use Mail;
+use PHPMailer\PHPMailer;
 
 class grievanceController extends Controller
 {   
@@ -86,7 +89,8 @@ class grievanceController extends Controller
             // $to   = 'raj@ensoberhotels.com';
             $to   = '485kumarashish@gmail.com';
             $subject = "New Grievance By $from_name";
-            $pdf_name='';$ccemail='';
+            $pdf_name=$destinationPath.'/'.$name;
+            $ccemail= '';
             $this->send($message, $subject, $from, $to, $pdf_name='', $ccemail='');
             \DB::commit();
             return redirect('/grievance/thanks');

@@ -32,18 +32,18 @@ class Controller extends BaseController
 	
 	//Send Email
 	public function send($message, $subject, $from, $to, $pdf_name='', $ccemail=''){ 
-		//dd($message, $subject, $from, $to, $pdf_name, $ccemail);
+		// dd($message, $subject, $from, $to, $pdf_name, $ccemail);
 		$text             = $message;
         $mail             = new PHPMailer\PHPMailer(); // create a n
-        $mail->SMTPDebug  = 1; // debugging: 1 = errors and messages, 2 = messages only
+        $mail->SMTPDebug  = 0; // debugging: 1 = errors and messages, 2 = messages only
         $mail->SMTPAuth   = true; // authentication enabled
-        $mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
+        $mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for Gmail
         $mail->Host       = "smtp.gmail.com";
-        $mail->Port       = 587; // or 587
+        $mail->Port       = 25; // or 587
         $mail->IsHTML(true);
-        $mail->Username = "Sales@ensoberhotels.com"; 
-        $mail->Password = "new4321raj#"; 
-        $mail->SetFrom($from, 'Ensober');
+        $mail->Username = "info@rstechnosoft.com"; 
+        $mail->Password = "bjylkizlpfmeujtn"; 
+        $mail->SetFrom('info@rstechnosoft.com', 'Ensober');
         $mail->Subject = $subject;
         $mail->Body    = $text;
         $mail->AddAddress($to, "");
