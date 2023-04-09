@@ -34,7 +34,7 @@
         </div>
         <div class="input-field col s4">
           <span class="ml-4">
-          <img src="{{ URL::to('/public/asset/images/logo/logo.png') }}" alt="logo">
+          <img src="{{ URL::to('/asset/images/logo/logo.png') }}" alt="logo">
           </span>
         </div>
       </div>
