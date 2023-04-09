@@ -13,9 +13,9 @@
 
 // Frontend
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+     return view('welcome');
+ });
 
 // clear cache
 Route::get('/clear-cache', function() {
