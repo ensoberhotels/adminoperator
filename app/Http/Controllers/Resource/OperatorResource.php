@@ -189,7 +189,7 @@ class OperatorResource extends Controller
     public function update(Request $request, $id)
     {
         // Begin a transaction
-        DB::beginTransaction();
+        DB::beginTransaction(); 
         $this->validate($request, [
             'name'          => 'required',
             'email'         => 'required|email|unique:operators,email,'.$id,
