@@ -274,4 +274,7 @@ class OperatorResource extends Controller
             return back()->with('flash_error', 'Operator Not Found');
         }
     }
+
+
+    
 }
