@@ -69,7 +69,7 @@
 					<input class="validate invalid" required="" aria-required="true" id="hotel_name" name="hotel_name" type="text">
                 </div>
 				<div class=" col s12 m2">
-                  <label for="start_category" class="">Contact Email *</label>
+                  <label for="start_category" class="">Property Type *</label>
 				  <select class="validate invalid" required="" aria-required="true" id="property_type" name="property_type">
 					<option value="">Property Type</option>
 					<option value="HOTEL">Hotel</option>
@@ -78,7 +78,7 @@
 				  </select>
                 </div>
 				<div class=" col s12 m2">
-                  <label for="start_category" class="">Contact Email *</label>
+                  <label for="start_category" class="">Hotel Category *</label>
 				  <select class="validate invalid" required="" aria-required="true" id="start_category" name="start_category">
 					<option value="">Start Category</option>
 					<option value="ONE">One</option>
