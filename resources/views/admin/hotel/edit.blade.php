@@ -67,7 +67,7 @@
 					<input class="validate invalid" required="" aria-required="true" id="hotel_name" name="hotel_name" type="text" value="{{$hotel->hotel_name }}">
                 </div>
 				<div class=" col s12 m2">
-                  <label for="start_category" class="">Contact Email *</label>
+                  <label for="start_category" class="">Property Type *</label>
 				  <select class="validate invalid" required="" aria-required="true" id="property_type" name="property_type">
 					<option value="" @if($hotel->property_type=="") selected @endif>Property Type</option>
 					<option value="HOTEL" @if($hotel->property_type=="HOTEL") selected @endif>Hotel</option>
@@ -76,7 +76,7 @@
 				  </select>
                 </div>
 				<div class=" col s12 m2">
-                  <label for="start_category" class="">Contact Email *</label>
+                  <label for="start_category" class="">Hotel Category *</label>
 				  <select class="validate invalid" required="" aria-required="true" id="start_category" name="start_category">
 					<option value="" @if($hotel->start_category=="") selected @endif>Start Category</option>
 					<option value="ONE" @if($hotel->start_category=="ONE") selected @endif>One</option>

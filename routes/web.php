@@ -512,3 +512,7 @@ Route::post('/login-bycadmin-{id}', 'AdminController@bycadmin');
 Route::get('/grievance', 'Resource\grievanceController@index');
 Route::post('/grievance/store', 'Resource\grievanceController@store');
 Route::get('/grievance/thanks', 'Resource\grievanceController@thanks');
+
+// Admin Booking Source & From Master
+Route::resource('/admin/booking_from', 'Resource\BookingFromController');
+Route::resource('/admin/booking_source', 'Resource\BookingSourceController');
