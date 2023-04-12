@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Resource;
 use View;
 use App\ActivityCat;
 use App\ActivityName;
-use App\ActivitySubCat;use App\Activity;
+use App\ActivitySubCat;use App\Activity; 
 use App\Country;
 use App\Region;
 use App\City;
