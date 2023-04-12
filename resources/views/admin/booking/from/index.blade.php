@@ -49,10 +49,6 @@
 				<div class="col s6">
 					<h4 class="card-title">All Booking From</h4>
 				</div>
-				<div class="col s2 m6 l6" style="text-align: right;">
-					<a class="mb-6 btn waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">Delete</a>
-					<a class="mb-6 btn waves-effect waves-light gradient-45deg-green-teal gradient-shadow">Update</a>
-				</div>
 			</div>
           <div class="row">
             <div class="col s12">

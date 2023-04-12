@@ -493,21 +493,19 @@
 													<div class="col s12 m6"> 
 														<label for="booking_from">Booking From:</label><br>
 														<select class="form-control" name="booking_from" id="booking_from">
-														<option></option>
-															<option value="ENSOBER" @if(@$quotation[0]->booking_from == 'ENSOBER') {{ 'selected' }} @endif>ENSOBER</option>
-															<option value="ONLINE" @if(@$quotation[0]->booking_from == 'ONLINE') {{ 'selected' }} @endif>ONLINE</option>
-															<option value="OPERATIONTEAM" @if(@$quotation[0]->booking_from == 'OPERATIONTEAM') {{ 'selected' }} @endif>OPERATION TEAM</option>
-															<option value="VINAYAKTEAM" @if(@$quotation[0]->booking_from == 'VINAYAKTEAM') {{ 'selected' }} @endif>VINAYAK TEAM</option>
+															<option value=""></option>
+															@foreach($booking_froms as $booking_from)
+																<option value="{{$booking_from->title}}" @if(@$quotation[0]->booking_from == $booking_from->title) {{ 'selected' }} @endif>{{$booking_from->title}}</option>
+															@endforeach
 														</select>
 													</div>
 													<div class="col s12 m6">
 														<label for="source">Source:</label><br>
 														<select class="form-control" name="source" id="source">
 															<option value=""></option>
-															<option value="AGENT" @if(@$quotation[0]->source == 'AGENT') {{ 'selected' }} @endif>AGENT</option>
-															<option value="DIRECT" @if(@$quotation[0]->source == 'DIRECT') {{ 'selected' }} @endif>DIRECT</option>
-															<option value="HOTELPARTNER" @if(@$quotation[0]->source == 'HOTELPARTNER') {{ 'selected' }} @endif>HOTEL PARTNER</option>
-															<option value="ONLINE" @if(@$quotation[0]->source == 'ONLINE') {{ 'selected' }} @endif>ONLINE</option>
+															@foreach($booking_sources as $booking_source)
+																<option value="{{$booking_source->title}}" @if(@$quotation[0]->booking_from == $booking_source->title) {{ 'selected' }} @endif>{{$booking_source->title}}</option>
+															@endforeach
 														</select>
 													</div>
 													<div class="col s12 m6">

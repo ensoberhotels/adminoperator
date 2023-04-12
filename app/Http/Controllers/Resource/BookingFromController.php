@@ -28,9 +28,8 @@ class BookingFromController extends Controller
      */
     public function index()
     {   
-        
         $user=session()->get('admin');
-        $data = BookingFrom::orderBy('id' , 'desc')->where('company_id',$user['id'][0])->get();
+        $data = BookingFrom::orderBy('id' , 'desc')->where('company_id',$user['comp_id'][0])->get();
         return view('admin.booking.from.index', compact('data'));
     }
 
@@ -61,7 +60,7 @@ class BookingFromController extends Controller
             $user=session()->get('admin');
             $data = new BookingFrom();
             $data->title = $request->title;
-            $data->company_id=$user['id'][0];
+            $data->company_id=$user['comp_id'][0];
             
             $data->save();
             return back()->with('flash_success','Booking From Saved Successfully');
@@ -92,7 +91,7 @@ class BookingFromController extends Controller
     {
         try {
             $user=session()->get('admin');
-            $data = BookingFrom::where('id',$id)->where('company_id',$user['id'][0])->first();
+            $data = BookingFrom::where('id',$id)->where('company_id',$user['comp_id'][0])->first();
             if ($data) {
                 return view('admin.booking.from.edit',compact('data'));
             } else {
@@ -119,7 +118,7 @@ class BookingFromController extends Controller
 
         try{
             $user =session()->get('admin');
-			$post = BookingFrom::where('id',$id)->where('company_id',$user['id'][0])->first();
+			$post = BookingFrom::where('id',$id)->where('company_id',$user['comp_id'][0])->first();
 			
             if( $post ) {
                 $post->title = $request->title;
@@ -145,7 +144,7 @@ class BookingFromController extends Controller
     {
         try { 
             $user=session()->get('admin');
-            $post = BookingFrom::where('id',$id)->where('company_id',$user['id'][0])->first();
+            $post = BookingFrom::where('id',$id)->where('company_id',$user['comp_id'][0])->first();
             if( $post ) {
                 $post->delete();
 				return back()->with('flash_success', 'Booking From Deleted Successfull!');

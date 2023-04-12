@@ -29,7 +29,7 @@ class BookingSourceController extends Controller
     {   
         
         $user=session()->get('admin');
-        $data = BookingSource::orderBy('id' , 'desc')->where('company_id',$user['id'][0])->get();
+        $data = BookingSource::orderBy('id' , 'desc')->where('company_id',$user['comp_id'][0])->get();
         return view('admin.booking.source.index', compact('data'));
     }
 
@@ -60,7 +60,7 @@ class BookingSourceController extends Controller
             $user=session()->get('admin');
             $data = new BookingSource();
             $data->title = $request->title;
-            $data->company_id=$user['id'][0];
+            $data->company_id=$user['comp_id'][0];
             
             $data->save();
             return back()->with('flash_success','Booking Source Saved Successfully');
@@ -91,7 +91,7 @@ class BookingSourceController extends Controller
     {
         try {
             $user=session()->get('admin');
-            $data = BookingSource::where('id',$id)->where('company_id',$user['id'][0])->first();
+            $data = BookingSource::where('id',$id)->where('company_id',$user['comp_id'][0])->first();
             if ($data) {
                 return view('admin.booking.source.edit',compact('data'));
             } else {
@@ -118,7 +118,7 @@ class BookingSourceController extends Controller
 
         try{
             $user =session()->get('admin');
-			$post = BookingSource::where('id',$id)->where('company_id',$user['id'][0])->first();
+			$post = BookingSource::where('id',$id)->where('company_id',$user['comp_id'][0])->first();
 			
             if( $post ) {
                 $post->title = $request->title;
@@ -144,7 +144,7 @@ class BookingSourceController extends Controller
     {
         try { 
             $user=session()->get('admin');
-            $post = BookingSource::where('id',$id)->where('company_id',$user['id'][0])->first();
+            $post = BookingSource::where('id',$id)->where('company_id',$user['comp_id'][0])->first();
             if( $post ) {
                 $post->delete();
 				return back()->with('flash_success', 'Booking Source Deleted Successfull!');
