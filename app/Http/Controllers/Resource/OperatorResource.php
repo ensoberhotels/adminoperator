@@ -50,11 +50,12 @@ class OperatorResource extends Controller
 		$hotels = Hotel::All();
         $Countries = Country::where('status', 'ACTIVE')->get();
         $menu      = CompanyPrivilage::
-                    select('sua_menu_masters.id', 'sua_menu_masters.name')
+                    select('sua_menu_masters.id', 'sua_menu_masters.name', 'sua_company_privileges.module_id')
                     ->join('sua_menu_masters', 'sua_menu_masters.id', '=', 'sua_company_privileges.menu_id')
                     ->where('sua_company_privileges.company_id', $user['comp_id'][0])
                     ->where('sua_company_privileges.permission', 'Y')
                     ->get();
+        $menu   = $menu->groupBy('module_id');
         // $menu      = MenuMaster::orderBy('id','ASC')->where('status', 'ACTIVE')->get();
         return view('admin.operator.create',compact('Countries','hotels', 'menu'));
     }
@@ -166,12 +167,12 @@ class OperatorResource extends Controller
             $Citys = City::where('region_id', $operator->region_id)->where('status', 'ACTIVE')->get();
 			$hotels = Hotel::All();
             $menu      = CompanyPrivilage::
-                        select('sua_menu_masters.id', 'sua_menu_masters.name')
+                        select('sua_menu_masters.id', 'sua_menu_masters.name', 'sua_company_privileges.module_id')
                         ->join('sua_menu_masters', 'sua_menu_masters.id', '=', 'sua_company_privileges.menu_id')
                         ->where('sua_company_privileges.company_id', $user['comp_id'][0])
                         ->where('sua_company_privileges.permission', 'Y')
                         ->get();
-            // $menu      = MenuMaster::with('CheckedMenuDetails')->orderBy('id','ASC')->where('status', 'ACTIVE')->get();
+            $menu   = $menu->groupBy('module_id');
             // dd($menu);
             return view('admin.operator.edit',compact('hotels','operator', 'Countries', 'Regions', 'Citys', 'menu'));
         } catch (ModelNotFoundException $e) {
