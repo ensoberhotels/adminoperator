@@ -158,7 +158,7 @@
 					<thead>
 						<tr>
 							<th>Menus</th>
-							<th style="float:right"><input type="checkbox" id="allChecked" style="position: relative; opacity: 6; text-align:right" class="form-control check_hotel" class="form-control check_hotel oneMenu"/>&nbsp;&nbsp;Check All Menu</th>
+							<th style="float:right"><input type="checkbox" id="allChecked" style="position: relative; opacity: 6; text-align:right" class="form-control check_hotel" class="form-control check_hotel oneMenu"/>&nbsp;&nbsp;Check All Menus</th>
 						</tr>
 					</thead>
 				</table>
