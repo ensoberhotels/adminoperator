@@ -219,7 +219,7 @@
 						<ul>
 							@foreach($menus as $menusdata)
 								<li class="listMenus" style="display:none;">
-									<input type="checkbox" value="{{$menusdata->id}}" name="menusdata[]" style="position:relative; opacity:6; margin-left:20px;" class="form-control check_hotel oneMenu moduleMemu" @if(getMenuPrev($menusdata->id, $operator->id)=='true') checked @endif /><label class="contents">{{$menusdata->name}}</label><br>
+									<input type="checkbox" value="{{$menusdata->id}}" name="menus[]" style="position:relative; opacity:6; margin-left:20px;" class="form-control check_hotel oneMenu moduleMemu" @if(getMenuPrev($menusdata->id, $operator->id)=='true') checked @endif /><label class="contents">{{$menusdata->name}}</label><br>
 								</li>
 							@endforeach
 						</ul>
@@ -311,7 +311,7 @@
 				jQuery(this).closest('div').find('.oneMenu').prop('checked', true);
 			}
 			else{
-				jQuery('.oneMenu').closest('div').find('.oneMenu').prop('checked', false);
+				jQuery(this).closest('div').find('.oneMenu').prop('checked', false);
 			}
 		});
 
