@@ -15,7 +15,19 @@
 					<ul class="collapsible" data-collapsible="accordion">
 						
             					@foreach($menu->childs as $child)
-            						<li><a class="collapsible-body" href="{{URL::to($child->path)}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>{{$child->name}}</span></a></li>
+            						@if($child->path == '#')
+            							<li><a class="collapsible-body" href="{{URL::to($child->path)}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>{{$child->name}}</span>
+            								@if(@$child->sub_childs->count() > 0) <span class="fa arrow menu_hide"></span>@endif</a>
+            								@if($child->sub_childs->count() > 0)
+            									@foreach($child->sub_childs as $child)
+            										<li><a class="collapsible-body" href="{{URL::to($child->path)}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>{{$child->name}}</span></a></li>
+            									@endforeach
+            								@endif
+            							</li>
+
+            						@else
+            							<li><a class="collapsible-body" href="{{URL::to($child->path)}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>{{$child->name}}</span></a></li>
+            						@endif
             					@endforeach
           					</ul>
         				</div>

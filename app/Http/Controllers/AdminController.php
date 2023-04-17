@@ -37,7 +37,7 @@ use App\SMTPEmail;
 use App\RoomBookedDetails;
 use App\WebsiteEnquiry;
 use PDF;
-
+use App\MenuMaster;
 use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
@@ -162,12 +162,23 @@ class AdminController extends Controller
 	 */
 	public function dashboard(){
 		if (session()->exists('admin')) {
-			return view('admin/dashboard');
+			$log_user = session()->get('admin');
+			$company_priv=DB::table('sua_company_privileges')->where('company_id',$log_user['comp_id'][0])->pluck('menu_id')->toArray();
+			$data=MenuMaster::where('login_type','A')->whereIn('id',$company_priv)->get();
+			return view('admin/dashboard',compact('data'));
 		}else{
 			return redirect('/admin');
 		}
 	}
-	
+	//menu status update
+	public function ChangeStatus(Request $request){
+		//dd($request->all());
+		$data=MenuMaster::where('id',$request->id)->update(['menu_flag'=>$request->flag]);
+		if($data){
+			return response()->json(['status' => 1, 'msg' => 'Data Fetch Successfully!', 'data' => $data]);
+		}
+	}
+
 	/**
 	 * This function use for make quotation.
 	 *
