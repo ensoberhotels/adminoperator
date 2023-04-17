@@ -19,6 +19,15 @@
 		.oneMenu{
 			width: 12px !important;
 		}
+		.moduleMemu{
+			margin-left: 20px !important;
+		}
+		.contents{
+			padding-left: 5px;
+		}
+    .ActiveModule{
+			color:green !important;
+		}
 	</style>
 @endsection
 
@@ -192,24 +201,32 @@
                 </div>
 				</div>
 
-			<div class="col-12">
+      <div class="col-12">
 				<table>
 					<thead>
 						<tr>
 							<th>Menus</th>
-							<th><input type="checkbox" id="allChecked" checked style="position: relative; opacity: 6;" class="form-control check_hotel" />Action</th>
+							<th style="float:right"><input type="checkbox" id="allChecked" style="position: relative; opacity: 6; text-align:right" class="form-control check_hotel" class="form-control check_hotel oneMenu"/>&nbsp;&nbsp;Check All Menus</th>
 						</tr>
 					</thead>
 				</table>
 				<ul>
-				@foreach($menu as $menus)
-					<div class="col m3 s4 menus">
-						{{$menus->name}}  <input type="checkbox" value="{{$menus->id}}" name="menus[]" @if(getMenuPrev($menus->id, $operator->id)=='true') checked @endif style="position: relative; opacity: 6; float:right;" class="form-control check_hotel oneMenu" />
+				@foreach($menu as $module=>$menus)
+					<div class="col m3 s4 menus"> 
+						<li>
+							<input type="checkbox" style="position:relative; opacity:6;" class="form-control check_hotel oneMenu modules"><label class="contents" style="cursor:pointer;"><b><u>{{@getModuleName($module)}}</u></b></label>
+						</li>
+						<ul>
+							@foreach($menus as $menusdata)
+								<li class="listMenus" style="display:none;">
+									<input type="checkbox" value="{{$menusdata->id}}" name="menus[]" style="position:relative; opacity:6; margin-left:20px;" class="form-control check_hotel oneMenu moduleMemu" @if(getMenuPrev($menusdata->id, $operator->id)=='true') checked @endif /><label class="contents">{{$menusdata->name}}</label><br>
+								</li>
+							@endforeach
+						</ul>
 					</div>
 				@endforeach
 				</ul>
 			</div>
-
     </form>
         </div>
       </div>
@@ -285,6 +302,24 @@
 			else{
 				jQuery('.oneMenu').prop('checked', false);
 			}
+		});
+
+		// function for Check and uncheck all closest checkbox of Module at a Time
+		jQuery(document).on('click', '.modules', function(){
+			if(jQuery(this).is(':checked'))
+			{
+				jQuery(this).closest('div').find('.oneMenu').prop('checked', true);
+			}
+			else{
+				jQuery(this).closest('div').find('.oneMenu').prop('checked', false);
+			}
+		});
+
+		// function for show closest Module at a Time
+		jQuery(document).on('click', '.contents', function(){
+			jQuery('.contents').removeClass('ActiveModule');
+			jQuery(this).addClass('ActiveModule');
+			jQuery(this).closest('div').find('.listMenus').toggle();
 		});
 	</script>
 @endsection

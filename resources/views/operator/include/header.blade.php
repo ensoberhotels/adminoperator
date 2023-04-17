@@ -14,6 +14,7 @@
               <input class="header-search-input z-depth-2" type="text" name="Search" placeholder="Explore Materialize">
             </div>
             <ul class="navbar-list right">
+              <li class="hide-on-med-and-down" title="Click for raise grievance"><a href="{{ url('/grievance') }}"><i class="material-icons">error</i></a></li>
               <li class="hide-on-med-and-down"><a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);"><i class="material-icons">settings_overscan</i></a></li>
               <li class="hide-on-large-only"><a class="waves-effect waves-block waves-light search-button" href="javascript:void(0);"><i class="material-icons">search</i></a></li>
               <li><a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);" data-target="notifications-dropdown"><i class="material-icons noti_m_icon" >notifications_none<!--<small class="notification-badge">5</small>--></i></a></li>

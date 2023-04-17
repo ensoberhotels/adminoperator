@@ -52,6 +52,8 @@ use App\ITIActivity;
 use App\PaymentHistory;
 use App\ITIPrice;
 use App\ITIDayWiseItinerary;
+use App\BookingFrom;
+use App\BookingSource;
 
 class ItineraryController extends Controller
 {
@@ -313,9 +315,13 @@ class ItineraryController extends Controller
 				$quot['roomtypes'] =   $collection->merge($roomtypes);
 				$quot['paymentsources'] =   $collection->merge($paymentsources);
 			}
+
 			$booking_detail = RoomBookedDetails::where('send_quotation_no', $quotation_no)->first();
-			//dd($quotation_no);
-            return view('operator/getquotation',compact('hotels', 'citiesh','quotation','lead','roomtypes','roomsrate','booking_detail')); 
+			$booking_froms	=	BookingFrom::where('company_id', $session_data['company_id'][0])->get();
+			$booking_sources =   BookingSource::where('company_id', $session_data['company_id'][0])->get();
+			// dd($session_data, $quotation_no, $booking_froms, $booking_sources);
+
+            return view('operator/getquotation',compact('hotels', 'citiesh','quotation','lead','roomtypes','roomsrate','booking_detail', 'booking_froms', 'booking_sources')); 
         } catch (ModelNotFoundException $e) {
             return $e;
         }

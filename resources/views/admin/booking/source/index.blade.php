@@ -3,12 +3,12 @@
 @section('title', 'Ensober Admin Dashboard ')
 
 @section('styles')
-    
+	
 @endsection
 
 @section('content')
-    <!-- BEGIN: Page Main-->
-    <div id="main">
+	<!-- BEGIN: Page Main-->
+	<div id="main">
       <div class="row">
         <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
         <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
@@ -18,9 +18,9 @@
               <div class="col s10 m6 l6">
                 <h5 class="breadcrumbs-title mt-0 mb-0">Dashboard</h5>
                 <ol class="breadcrumbs mb-0">
-                  <li class="breadcrumb-item"><a href="index.html">Operator</a>
+                  <li class="breadcrumb-item"><a href="index.html">Car</a>
                   </li>
-                  <li class="breadcrumb-item"><a href="#">All Operator</a>
+                  <li class="breadcrumb-item"><a href="#">All Car</a>
                   </li>
                 </ol>
               </div>
@@ -39,29 +39,17 @@
         <div class="col s12">
           <div class="container">
             <div class="section section-data-tables">
-  <div class="card">
-    <div class="card-content">
-      <p class="caption mb-0">Tables are a nice way to organize a lot of data. We provide a few utility classes to help
-        you style your table as easily as possible. In addition, to improve mobile experience, all tables on
-        mobile-screen widths are centered automatically.</p>
-    </div>
-  </div>
-
   <!-- Multi Select -->
 
   <div class="row">
     <div class="col s12">
       <div class="card">
         <div class="card-content">
-            <div class="row">
-                <div class="col s6">
-                    <h4 class="card-title">All Operator</h4>
-                </div>
-                <div class="col s2 m6 l6" style="text-align: right;">
-                    <a class="mb-6 btn waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">Delete</a>
-                    <a class="mb-6 btn waves-effect waves-light gradient-45deg-green-teal gradient-shadow">Update</a>
-                </div>
-            </div>
+			<div class="row">
+				<div class="col s6">
+					<h4 class="card-title">All Booking Source</h4>
+				</div>
+			</div>
           <div class="row">
             <div class="col s12">
               <table id="multi-select" class="display">
@@ -73,20 +61,12 @@
                         <span></span>
                       </label>
                     </th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Country</th>
-                    <th>State</th>
-                    <th>City</th>
-                    <th>Room Inventory</th>
-                    <th>Assigned Hotel</th>
-                    <th>View Only</th>
-                    <th class="no-sort">Status</th>
+                    <th>Title</th>
                     <th class="no-sort">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                @foreach($operators as $operator)
+				@foreach($data as $datas)
                   <tr>
                     <th>
                       <label>
@@ -94,68 +74,30 @@
                         <span></span>
                       </label>
                     </th>
-                    <td>{{ $operator->name }}</td>
-                    <td>{{ $operator->email }}</td>
-                    <td>{{ $operator->country_id }}</td>
-                    <td>{{ $operator->region_id }}</td>
-                    <td>{{ $operator->city_id }}</td>
-                    <td>{{ @$operator->room_inventory }}</td>
-                    <td>{{ @$operator->hotelName->hotel_name }}</td>
-                    <td>{{ @$operator->view_only }}</td>
+                    <td>{{ $datas->title }}</td>
                     <td>
-                        <div class="switch">
-                          <label onchange="change_status('{{$operator->id}}','Operator' )">
-                            @if($operator->status == 'ACTIVE')
-                                <input checked="" type="checkbox">
-                            @else
-                                <input type="checkbox">
-                            @endif
-                            <span class="lever"></span>
-                          </label>
-                        </div>
-                    </td>
-                    <td>
-                    
-                    <form action="{{ route('operator.destroy', $operator->id) }}" method="POST" style="display: inline-block;">
+                     <form action="{{ route('booking_source.destroy', $datas->id) }}" method="POST" style="display: inline-block;">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="DELETE">
                         <button class="mb-6 btn-floating waves-effect waves-light gradient-45deg-purple-deep-orange car_delete" title="Delete" onclick="return confirm('Are you sure?')">
-                            <i class="material-icons">delete_sweep</i>
+                           <i class="material-icons">delete_sweep</i>
                         </button>
-                    </form>
-					<a href="{{ route('operator.edit', $operator->id) }}">
-						<button class="mb-6 btn-floating waves-effect waves-light gradient-45deg-green-teal gradient-shadow"><i class="material-icons">brush</i></button>
-					</a>  
-
-					<form action="/admin/closecontact" method="POST" style="display: inline-block;" >
-                        {{ csrf_field() }}
-                        <input type="hidden" name="_method" value="POST">
-                        <input type="hidden" name="operator_id" value="{{$operator->id}}">
-                        <button class="mb-6 btn-floating waves-effect waves-light gradient-45deg-purple-deep-orange car_delete" title="Close Contact" onclick="return confirm('Are you sure want to close all contact for this operator?')">
-                            <i class="material-icons">close</i>
-                        </button>
-                    </form>
+                        </form>
+                        <a href="{{ route('booking_source.edit', $datas->id) }}">
+                           <button class="mb-6 btn-floating waves-effect waves-light gradient-45deg-green-teal gradient-shadow"><i class="material-icons">brush</i></button>
+                        </a>
+                     </td>
                   </tr>
-                @endforeach
+				@endforeach
                 </tbody>
                 <tfoot>
                   <tr>
                     <th></th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Country</th>
-                    <th>State</th>
-                    <th>City</th>
-					<th>Room Inventory</th>
-                    <th>Assigned Hotel</th>
-                    <th>Status</th>
+                    <th>Title</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
               </table>
-              <div class="pagination">
-                 {{$operators->links()}}
-              </div>
             </div>
           </div>
         </div>
@@ -679,7 +621,13 @@
    </ul>
 </aside>
 <!-- END RIGHT SIDEBAR NAV -->
-    <div style="bottom: 50px; right: 19px;" class="fixed-action-btn direction-top"><a class="btn-floating btn-large gradient-45deg-light-blue-cyan gradient-shadow"><i class="material-icons">add</i></a>
+            <div style="bottom: 50px; right: 19px;" class="fixed-action-btn direction-top"><a class="btn-floating btn-large gradient-45deg-light-blue-cyan gradient-shadow"><i class="material-icons">add</i></a>
+    <!--<ul>
+        <li><a href="css-helpers.html" class="btn-floating blue"><i class="material-icons">help_outline</i></a></li>
+        <li><a href="cards-extended.html" class="btn-floating green"><i class="material-icons">widgets</i></a></li>
+        <li><a href="app-calendar.html" class="btn-floating amber"><i class="material-icons">today</i></a></li>
+        <li><a href="app-email.html" class="btn-floating red"><i class="material-icons">mail_outline</i></a></li>
+    </ul>-->
 </div>
           </div>
         </div>
@@ -689,7 +637,7 @@
 @endsection
 
 @section('scripts')
-    <!-- BEGIN VENDOR JS-->
+	<!-- BEGIN VENDOR JS-->
     <script src="{{ URL::asset('asset/js/vendors.min.js') }}" type="text/javascript"></script>
     <!-- BEGIN VENDOR JS-->
     <!-- BEGIN PAGE VENDOR JS-->
@@ -705,4 +653,21 @@
     <!-- BEGIN PAGE LEVEL JS-->
     <script src="{{ URL::asset('asset/js/scripts/data-tables.js') }}" type="text/javascript"></script>
     <!-- END PAGE LEVEL JS-->
+	
+	<script>
+		/* jQuery(document).ready(function(){
+			jQuery(".car_delete").click(function(event){
+				event.preventDefault();
+				var car_id = jQuery(this).attr("carid");
+				jQuery.ajax({
+					type: 'get',
+					url: '/admin/car/destroy/'+car_id,
+					//data: {'delete':'delete'},
+					success: function(res){
+						console.log(res);
+					}
+				});
+			});
+		}); */
+	</script>
 @endsection

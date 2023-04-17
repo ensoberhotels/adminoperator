@@ -50,7 +50,11 @@
 	<!-- Select2 -->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<!-- /Select2 -->
-	
+    <style>
+        #main{
+            width: 99% !important;
+        }
+    </style>	
 	
     @yield('styles')
 

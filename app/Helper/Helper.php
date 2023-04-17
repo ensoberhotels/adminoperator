@@ -53,6 +53,7 @@ use App\ITIActivitiPriceList;
 use App\ITIHotelPriceList;
 use App\ITITranportPriceList;
 use App\OptFilePrivilage;
+use App\ModuleMaster;
 
 use Illuminate\Support\Facades\Session;
 
@@ -134,6 +135,15 @@ if (!function_exists('getMenuPrev')) {
         else {
             return 'false';
         }
+    }
+}
+
+// This function use for get the city name by id
+if (!function_exists('getModuleName')) {
+    function getModuleName($id) {
+        @$module = ModuleMaster::where('id',$id)->first();
+        $module_name = $module->title;
+        return $module_name; 
     }
 }
 ?>

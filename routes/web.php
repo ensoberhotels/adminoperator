@@ -13,9 +13,9 @@
 
 // Frontend
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+     return view('welcome');
+ });
 
 // clear cache
 Route::get('/clear-cache', function() {
@@ -508,3 +508,12 @@ Route::get('/clear-cache', function() {
 
 // Direct login by Campany Admin in Admin dashboard
 Route::post('/login-bycadmin-{id}', 'AdminController@bycadmin');
+
+//  grievance by admin or operator
+Route::get('/grievance', 'Resource\grievanceController@index');
+Route::post('/grievance/store', 'Resource\grievanceController@store');
+Route::get('/grievance/thanks', 'Resource\grievanceController@thanks');
+
+// Admin Booking Source & From Master
+Route::resource('/admin/booking_from', 'Resource\BookingFromController');
+Route::resource('/admin/booking_source', 'Resource\BookingSourceController');
