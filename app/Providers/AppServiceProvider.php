@@ -38,12 +38,8 @@ class AppServiceProvider extends ServiceProvider
                     $access_menus=MenuMaster::where('status','ACTIVE')->where('login_type',$log_user['login_type'][0])->where('type','MENU')->whereNotIn('menu_flag',['N'])->orderBy('display_order')->get();
                 }else if($log_user['login_type'][0] == 'O'){
                     $data=DB::table('opt_file_privilage')->where('company_id',$log_user['company_id'][0])->where('operator_id',$log_user['id'][0])->where('admin_id',$log_user['property_id'][0])->pluck('menu_id')->toArray();
-<<<<<<< HEAD
-                    //dd($data);
                     $access_menus=MenuMaster::where('status','ACTIVE')->where('login_type',$log_user['login_type'][0])->whereIn('id',$data)->where('type','MENU')->whereNotIn('menu_flag',['N'])->orderBy('display_order')->get();
-=======
-                    $access_menus=MenuMaster::where('status','ACTIVE')->where('login_type',$log_user['login_type'][0])->whereIn('id',$data)->where('type','MENU')->orderBy('display_order')->get();
->>>>>>> f92674b523089e7610409e1e5b8aa7229f0e42da
+                    //$access_menus=MenuMaster::where('status','ACTIVE')->where('login_type',$log_user['login_type'][0])->whereIn('id',$data)->where('type','MENU')->orderBy('display_order')->get();
                 }
                 View::share(['access_menus'=>$access_menus]);
             }else{
