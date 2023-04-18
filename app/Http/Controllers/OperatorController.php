@@ -38,7 +38,7 @@ use App\Http\Controllers\SMTPMail;
 use Google\Cloud\Vision\V1\ImageAnnotatorClient;
 use App\WebsiteOrder;
 use App\WebsiteOrderPayment;
-
+use App\MenuMaster;
 class OperatorController extends Controller
 {
 	
@@ -125,7 +125,14 @@ class OperatorController extends Controller
 			return response()->json(['error' => $e->getMessage()]);
 		}
 	}
-	
+	//menu status update
+	public function ChangeStatus(Request $request){
+		//dd($request->all());
+		$data=MenuMaster::where('id',$request->id)->update(['menu_flag'=>$request->flag]);
+		if($data){
+			return response()->json(['status' => 1, 'msg' => 'Data Fetch Successfully!', 'data' => $data]);
+		}
+	}
 	/**
 	 * This function use for Vender login action
 	 *
@@ -190,6 +197,7 @@ class OperatorController extends Controller
 	public function dashboard(Request $request){ 
 		if (session()->exists('operator')) {
             $operator_id = session()->get('operator.id');
+            $log_user = session()->get('admin');
             //$current_date = date('Y-m-d');
             $new = Lead::where('assign_to', $operator_id[0])->whereDate('created_at', '=', date('Y-m-d'))->get();
             $new_count = $new->count();
@@ -208,7 +216,9 @@ class OperatorController extends Controller
                        ->leftJoin('quotations', 'quotations.lead_id', '=', 'leads.id')
                        ->where('leads.assign_to',$operator_id[0])
                        ->orderBy('leads.id' , 'desc')->paginate(25);
-            return view('operator/dashboard', compact('new_count','active_count','inactive_count','hot_count','quotation_count','booked_count','leadlists'));
+            $data=DB::table('opt_file_privilage')->where('company_id',$log_user['company_id'][0])->where('operator_id',$log_user['id'][0])->where('admin_id',$log_user['property_id'][0])->pluck('menu_id')->toArray();
+            $data=MenuMaster::where('login_type','O')->whereIn('id',$data)->get();
+            return view('operator/dashboard', compact('new_count','active_count','inactive_count','hot_count','quotation_count','booked_count','leadlists','data'));
 		}else{
 			return redirect('/operator');
 		}

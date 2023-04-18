@@ -55,7 +55,7 @@ Route::get('/admin/pdf', 'AdminController@gpdf');
 Route::post('/admin/closecontact', 'AdminController@closeContactToOperator');
 
 Route::get('/admin/dashboard', 'AdminController@dashboard');
-
+Route::post('/admin/dashboard/save', 'AdminController@ChangeStatus');
 Route::get('/admin/addvender', 'AdminController@addVender');
 
 Route::post('/admin/addvenderaction', 'AdminController@addVenderAction');
@@ -347,6 +347,7 @@ Route::get('/operator/autologin', 'OperatorController@operatorAutoLogin');
 Route::get('/operator/autologinpayment', 'OperatorController@operatorAutoLoginPay');
 Route::get('/operator/logout', 'OperatorController@logout');
 Route::get('/operator/dashboard', 'OperatorController@dashboard');
+Route::post('/operator/dashboard/save', 'OperatorController@ChangeStatus');
 Route::get('/operator/pastcontactfollowup', 'OperatorController@pastContactFollowup');
 
 

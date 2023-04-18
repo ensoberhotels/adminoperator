@@ -26,7 +26,10 @@ class MenuMaster extends Model
     //     'password', 'remember_token',
     // ];
     function childs() {
-        return $this->hasMany('App\MenuMaster','parent_menu_id','id');
+        return $this->hasMany('App\MenuMaster','parent_menu_id','id')->where('menu_flag','Y');
+    }
+    function sub_childs() {
+        return $this->hasMany('App\MenuMaster','parent_menu_id','id')->where('menu_flag','Y');
     }
 	
 }
