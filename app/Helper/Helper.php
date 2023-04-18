@@ -54,6 +54,7 @@ use App\ITIHotelPriceList;
 use App\ITITranportPriceList;
 use App\OptFilePrivilage;
 use App\ModuleMaster;
+use App\MenuMaster;
 
 use Illuminate\Support\Facades\Session;
 
@@ -138,12 +139,24 @@ if (!function_exists('getMenuPrev')) {
     }
 }
 
-// This function use for get the city name by id
+// This function use for get the module name by id
 if (!function_exists('getModuleName')) {
     function getModuleName($id) {
         @$module = ModuleMaster::where('id',$id)->first();
         $module_name = $module->title;
         return $module_name; 
+    }
+}
+
+// This function use for get the menu url by id
+if (!function_exists('getMenuUrl')) {
+    function getMenuUrl($id) {
+        $menu_path  = [];
+        @$menus     = MenuMaster::where('parent_menu_id',$id)->get();
+        foreach ($menus as  $menu) {
+            $menu_path[] = str_replace('/','',@$menu->path);
+        }
+        return @$menu_path; 
     }
 }
 ?>
