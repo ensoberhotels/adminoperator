@@ -292,7 +292,7 @@ th {
                console.log(response);
                if (response.status == 1) {
                   jQuery('#po_search_loader'+id).hide();
-                  refresh();
+                  // refresh();
                }
             }
          })

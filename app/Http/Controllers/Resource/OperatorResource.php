@@ -68,7 +68,8 @@ class OperatorResource extends Controller
      */
     public function store(Request $request)
     {
-        // Begin a transaction
+        // $user=session()->get('admin');
+        //  dd($user);
         DB::beginTransaction();
         $this->validate($request, [
             'name'          => 'required',
@@ -80,13 +81,18 @@ class OperatorResource extends Controller
         ]);
       try{
         $user=session()->get('admin');
-        // dd($user);
-            $post = $request->all();
-            // dd($post);
-            // $post['password'] = bcrypt($post['password']);
-			if(isset($request->assigned_hotels)){
-				$assigned_hotels = implode(',', $request->assigned_hotels);
-			}
+            $comp_opt_count=DB::table('sua_company_master')->where('id',$user['comp_id'][0])->first();
+            //dd();
+            $comp_count=$comp_opt_count->no_of_operator/$comp_opt_count->no_of_user;
+            $opt_cout=Operator::where('company_id',$user['comp_id'][0])->where('property_id',$user['id'][0])->count();
+            if($opt_cout == $comp_count){
+                return back()->with('flash_error', 'You can add only two operator!');
+            }else{
+                $post = $request->all();
+                // $post['password'] = bcrypt($post['password']);
+                if(isset($request->assigned_hotels)){
+                    $assigned_hotels = implode(',', $request->assigned_hotels);
+                }
                 $post = new Operator;
                 $post->name         =   $request->name;
                 $post->email        =   $request->email;
@@ -106,26 +112,27 @@ class OperatorResource extends Controller
                 $post->company_id=$user['comp_id'][0];
                // dd($post);  
                 $post->save();
-            
-			if($post){
-                // function  for save Operator Menus privilege
-			    if(isset($request->menus)){
-                    $count  =   count($request->menus);
-                    for ($x = 0; $x < $count; $x++)
-                    {   
-                        $data = new OptFilePrivilage;
-                        $data->operator_id      = $post->id;
-                        $data->menu_id          = $request->menus[$x];
-                        $data->company_id       = $user['comp_id'][0];
-                        $data->admin_id         = $user['id'][0];
-                        $data->create_by        = $user['id']['0'];
-                        $data->save();
+                if($post){
+                    // function  for save Operator Menus privilege
+                    if(isset($request->menus)){
+                        $count  =   count($request->menus);
+                        for ($x = 0; $x < $count; $x++)
+                        {   
+                            $data = new OptFilePrivilage;
+                            $data->operator_id      = $post->id;
+                            $data->menu_id          = $request->menus[$x];
+                            $data->company_id       = $user['comp_id'][0];
+                            $data->admin_id         = $user['id'][0];
+                            $data->create_by        = $user['id']['0'];
+                            $data->save();
+                        }
                     }
+                    // Commit the transaction
+                    DB::commit();
+                    return back()->with('flash_success','Operator Saved Successfully');
                 }
-                // Commit the transaction
-                DB::commit();
-                return back()->with('flash_success','Operator Saved Successfully');
             }
+            
         } 
 
         catch (\Throwable $e) {

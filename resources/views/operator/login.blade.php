@@ -28,8 +28,13 @@
   <div class="col s12 m6 l4 z-depth-4 card-panel border-radius-6 login-card bg-opacity-8">
     <form class="login-form" action="{{ URL::to('/operator/login/action') }}" method="post">
       <div class="row">
-        <div class="input-field col s12">
+        <div class="input-field col s8">
           <h5 class="ml-4">Sign In As Operator</h5>
+        </div>
+        <div class="input-field col s4">
+          <span class="ml-4">
+          <img src="{{ URL::to('/public/asset/images/logo/logo.png') }}" alt="logo">
+          </span>
         </div>
       </div>
       <div class="row margin">
