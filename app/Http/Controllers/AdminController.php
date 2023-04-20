@@ -175,7 +175,7 @@ class AdminController extends Controller
 		//dd($request->all());
 		$data=MenuMaster::where('id',$request->id)->update(['menu_flag'=>$request->flag]);
 		if($data){
-			return response()->json(['status' => 1, 'msg' => 'Data Fetch Successfully!', 'data' => $data]);
+			return response()->json(['status' => 1, 'msg' => 'Data Fetch Successfully!', 'data' => $request->flag]);
 		}
 	}
 

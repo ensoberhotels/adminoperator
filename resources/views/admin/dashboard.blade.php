@@ -587,7 +587,7 @@
                                                 <td>{{$i}}</td>
                                                 <td style="text-align:left;">{{$datas->name}}</td>
 
-                                                <td style="padding: 3px !important;">
+                                                <td style="padding: 3px !important;" id="show_act_{{$datas->id}}">
                                                    @if($datas->menu_flag == 'Y')
                                                       <span onclick="return changeStatus({{$datas->id}})" name="action" class="td_status" >ACTIVE</span>
                                                    @else
@@ -680,7 +680,14 @@ th {
                
                if (response.status == 1) {
                   jQuery('#po_search_loader'+id).hide();
-                  // refresh();
+                  var tableHTML='';
+                  if(response.data == 'Y'){
+                     tableHTML+='<span onclick="return changeStatus('+id+')" name="action" class="td_status" >ACTIVE</span>';
+                  }else{
+                     tableHTML+='<span onclick="return changeStatus('+id+')" name="action" class="td_status_inactive" >INACTIVE</span>';
+                  }
+                  jQuery('#show_act_'+id).html(tableHTML);
+                  // refresh();show_act_
                }
             }
          })
