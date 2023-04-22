@@ -148,7 +148,7 @@ if (!function_exists('getModuleName')) {
     }
 }
 
-// This function use for get the menu url by id
+// This function use for get the menu url by parent_menu_id
 if (!function_exists('getMenuUrl')) {
     function getMenuUrl($id) {
         $menu_path  = [];
@@ -156,7 +156,19 @@ if (!function_exists('getMenuUrl')) {
         foreach ($menus as  $menu) {
             $menu_path[] = str_replace('/','',@$menu->path);
         }
-        return @$menu_path; 
+        return @$menu_path;
+    }
+}
+
+// This function use for get the menu url by module id
+if (!function_exists('getModuleUrl')) {
+    function getModuleUrl($id) {
+        $menu_path  = [];
+        @$menus     = MenuMaster::where('module',$id)->get();
+        foreach ($menus as  $menu) {
+            $menu_paths[] = str_replace('/','',@$menu->path);
+        }
+        return @$menu_paths; 
     }
 }
 ?>

@@ -6,11 +6,13 @@
 		<li class="active"><a class="collapsible-body active" href="{{URL::to('/admin/dashboard')}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>Dashboard</span></a></li>		
 		<li class="navigation-header"><a class="navigation-header-text">Applications</a><i class="navigation-header-icon material-icons">more_horiz</i></li>
 		@foreach($access_menus as $module=>$access_menu)
-			<li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="#"><span class="menu-title" data-i18n="">{{@getModuleName($module)}}</span></a>
+			<li class="bold @if(in_array(Request::segment(1).Request::segment(2).Request::segment(3).Request::segment(4) , getModuleUrl($module), true)) {{ 'active' }} @endif">
+				<a class="collapsible-header waves-effect waves-cyan " href="#"><span class="menu-title" data-i18n="">{{@getModuleName($module)}}</span></a>
 				<div class="collapsible-body">
 					<ul class="collapsible" data-collapsible="accordion">
 						@foreach($access_menu as $menu)
-							<li class="bold @if(Request::segment(2) == $menu->path) {{ 'active' }} @endif"><a class="collapsible-header waves-effect waves-cyan " href="{{URL($menu->path)}}"><i class="material-icons">{{$menu->icon}}</i><span class="menu-title" data-i18n="">{{$menu->name}}</span>
+						<li class="bold @if(in_array(Request::segment(1).Request::segment(2).Request::segment(3).Request::segment(4) , getMenuUrl($menu->id), true)) {{ 'active' }} @endif">
+							<a class="collapsible-header waves-effect waves-cyan " href="{{URL($menu->path)}}"><i class="material-icons">{{$menu->icon}}</i><span class="menu-title" data-i18n="">{{$menu->name}}</span>
 								@if(@$menu->childs->count() > 0) <span class="fa arrow menu_hide"></span>@endif
 							</a>
 							@if($menu->childs->count() > 0)
@@ -18,20 +20,20 @@
 										<ul class="collapsible" data-collapsible="accordion">
 			            					@foreach($menu->childs as $child)
 			            						@if($child->path == '#')
-			            							<li><a class="collapsible-body" href="{{URL::to($child->path)}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>{{$child->name}}</span>
+												<li class="bold @if(Request::segment(1).Request::segment(2).Request::segment(3).Request::segment(4) == str_replace('/','',$child->path)) {{ 'active' }} @endif"><a class="collapsible-body" href="{{URL::to($child->path)}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>{{$child->name}}</span>
 			            								@if(@$child->sub_childs->count() > 0) <span class="fa arrow menu_hide"></span>@endif</a>
 			            								@if($child->sub_childs->count() > 0)
 			            									<div class="collapsible-body">
 																<ul class="collapsible" data-collapsible="accordion">
 					            									@foreach($child->sub_childs as $child)
-					            										<li><a class="collapsible-body" href="{{URL::to($child->path)}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>{{$child->name}}</span></a></li>
+					            										<li class="bold @if(Request::segment(1).Request::segment(2).Request::segment(3).Request::segment(4) == str_replace('/','',$child->path)) {{ 'activemenu' }} @endif"><a class="collapsible-body" href="{{URL::to($child->path)}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>{{$child->name}}</span></a></li>
 					            									@endforeach
 					            								</ul>
 					            							</div>
 			            								@endif
 			            							</li>
 			            						@else
-			            							<li><a class="collapsible-body" href="{{URL::to($child->path)}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>{{$child->name}}</span></a></li>
+			            							<li class="bold @if(Request::segment(1).Request::segment(2).Request::segment(3).Request::segment(4) == str_replace('/','',$child->path)) {{ 'activemenu' }} @endif"><a class="collapsible-body" href="{{URL::to($child->path)}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>{{$child->name}}</span></a></li>
 			            						@endif
 			            					@endforeach
 			          					</ul>

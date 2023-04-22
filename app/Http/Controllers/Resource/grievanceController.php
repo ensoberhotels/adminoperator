@@ -27,16 +27,7 @@ class grievanceController extends Controller
 		View::share('requests', $requests);
 	}
 
-    public function index(){
-        return view('grievance.index');
-    }
-
     public function store(request $request){
-        $this->validate($request, [
-            'title'        => 'required',
-            'description'  => 'required',
-            'attachment'   => 'required',            
-        ]);
         //dd($request->all());
 		\DB::beginTransaction();
 		try{
@@ -66,7 +57,7 @@ class grievanceController extends Controller
             $data->attachment  = $name;
             $data->from_id     = $userID;  
             $data->from_name   = $from_name;
-            $data->save();
+            $save              = $data->save();
 
             $message="<table style='text-align: left;'>
                         <tr></tr><tr></tr>
@@ -92,15 +83,93 @@ class grievanceController extends Controller
             $pdf_name=$destinationPath.'/'.$name;
             $ccemail= '';
             $this->send($message, $subject, $from, $to, $pdf_name='', $ccemail='');
-            \DB::commit();
-            return redirect('/grievance/thanks');
+            if ($save) {
+                \DB::commit();
+                return response()->json(['status' => 1, 'msg' => 'Added Successfully', 'data' => $data]);
+            } else {
+            	\DB::rollback();
+            	return response()->json(['status' => 0, 'msg' => 'Data not save!', 'data' => '']);
+            }
         }catch(Exception $e){
 			\DB::rollback();
-            return back()->with('flash_error', 'Error while saving grievance data');
+            return response()->json(['status' => 0, 'msg' => 'Error while saving grievance data!', 'data' => '']);
 		}
     }
 
-    public function thanks(){
-        return view('grievance.thanks');
-    }
+    // public function store(request $request){
+    //     $this->validate($request, [
+    //         'title'        => 'required',
+    //         'description'  => 'required',
+    //         'attachment'   => 'required',            
+    //     ]);
+    //     //dd($request->all());
+	// 	\DB::beginTransaction();
+	// 	try{
+    //         $user=session()->get('admin');
+    //         $userID   = $user['id'][0];
+    //         $loginType = $user['login_type'][0];
+    //         if ($loginType=='A') {
+    //             $admin      =  Admin::where('id', $userID)->where('comp_admin_id', $user['comp_admin_id'][0])->where('comp_id', $user['comp_id'][0])->where('user_type', $loginType)->first();
+    //             $from_name  =  @$admin->user.' (Admin)';
+    //             $from_email =  @$admin->user_email;
+    //         } else {
+    //             $oprator    =  Operator::where('id', $userID)->where('company_id', $user['company_id'][0])->where('property_id', $user['property_id'][0])->first();
+    //             $from_name  =  @$oprator->name.' (Operator)';
+    //             $from_email =  @$user->email;
+    //         }
+    //         if($request->file('attachment')){
+    //             $name = time().'_'.$request->file('attachment')->getClientOriginalName();
+    //             $destinationPath = public_path('/asset/images/grievance');
+    //             $request->file('attachment')->move($destinationPath, $name);
+    //         }else{
+    //             $name = '';
+    //         }
+    //         $data = new grievance();
+
+    //         $data->title       = $request->title;
+    //         $data->description = $request->description;
+    //         $data->attachment  = $name;
+    //         $data->from_id     = $userID;  
+    //         $data->from_name   = $from_name;
+    //         $data->save();
+
+    //         $message="<table style='text-align: left;'>
+    //                     <tr></tr><tr></tr>
+    //                     <tr></tr><tr></tr>
+    //                     <h3  style='text-align: center;'>New New Grievance By $from_name</h3>
+    //                     <tr>
+    //                         <th>Title :</th>
+    //                         <td>$request->title</td>
+    //                     </tr>
+    //                     <tr>
+    //                         <th>Description:</th>
+    //                         <td>$request->description</td>
+    //                     </tr>
+    //                     <tr></tr><tr></tr>
+    //                     <tr></tr><tr></tr>
+    //                     <tr></tr><tr></tr>
+    //                     <tr><td>Thanks and regards by Ensober Holets </td></tr>
+    //                 </table>";
+    //         $from = $from_email;
+    //         // $to   = 'raj@ensoberhotels.com';
+    //         $to   = '485kumarashish@gmail.com';
+    //         $subject = "New Grievance By $from_name";
+    //         $pdf_name=$destinationPath.'/'.$name;
+    //         $ccemail= '';
+    //         $this->send($message, $subject, $from, $to, $pdf_name='', $ccemail='');
+    //         \DB::commit();
+    //         return redirect('/grievance/thanks');
+    //     }catch(Exception $e){
+	// 		\DB::rollback();
+    //         return back()->with('flash_error', 'Error while saving grievance data');
+	// 	}
+    // }
+
+    // public function index(){
+    //     return view('grievance.index');
+    // }
+    
+    // public function thanks(){
+    //     return view('grievance.thanks');
+    // }
 }
