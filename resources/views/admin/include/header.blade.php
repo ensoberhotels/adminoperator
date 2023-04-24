@@ -14,79 +14,76 @@
               <input class="header-search-input z-depth-2" type="text" name="Search" placeholder="Explore Materialize">
             </div>
             <ul class="navbar-list right">
-              <li class="hide-on-med-and-down" title="Click for raise grievance"><a href="{{ url('/grievance') }}"><i class="material-icons">error</i></a></li>
-              <!-- start grievance model pop up -->
+            <!-- start grievance model pop up -->
+            <li class="hide-on-med-and-down" title="Click for raise grievance"><a href="#" id="modelGrievance"><i class="material-icons">error</i></a></li>
             <!-- Modal -->
-              <div class="modal mt-5" id="staticBackdrop" style="display:none;z-index:5; max-height: 440px; min-height:440px">
-                <div class="modal-dialog" id="modal-Grievance">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <div class="row">
-                        <div class="col s10 m10" style="color: #028000;">
-                          <u><h5 class="modal-title center" id="staticBackdropLabel" style="color: #028000;">Raise New Grievance</h5></u>
+            <div class="modal mt-5" id="staticBackdrop" style="display:none;z-index:5; max-height: 430px; min-height:430px;">
+                <button type="button" class="b-close" title="Click for close model" style="position: absolute;border: 0px;top: 2px;right: 0px;color: #4963c1;background-color: white;"><i class="material-icons" style="font-size: 32px;">cancel</i></button>
+                <div id="modal-Grievance">
+                  <div class="row" style="border-bottom: 1px solid #a99c9cb3;padding-left: 20px;">
+                    <div class="col s10 m10">
+                      <h5 class="modal-title" id="staticBackdropLabel">Raise New Grievance</h5>
+                    </div>
+                  </div>
+                  <div class="modal-body">
+                    <form id="grievance_form">
+                      <!-- Start Header -->      
+                      <div class="row" style="padding: 0px 20px;">
+                        <div class=" col s12 m6">
+                          <div class=" col s12 m12">
+                            <h6>Title<span style="color: red;">*</span></h6>
+                            <input class="titleGrievance" aria-required="true" id="title" type="text" name="title" required>
+                          </div>	
+                                  
+                          <div class="col s12 m12">
+                            <div class="col s12 m12 l12">
+                              <h6 style="margin-bottom: 0px;">Description<span style="color: red;">*</span></h6> 
+                            </div>
+                            <div class="col s12 m12 l12">
+                              <textarea name="description" id="description" cols="30" rows="10" class="descriptionGrievance" style="height:113px !important;" required></textarea>
+                            </div>
+                          </div>
                         </div>
-                        <div class="col s2 m2" style="text-align:right;">
-                          <button type="button" class="btn waves-effect button b-close" data-bs-dismiss="modal" title="Click for close model"><i class="material-icons">cancel</i></button>
+                              
+                        <div class="col s12 m6">
+                          <div class="col s12">
+                            <h6 style="margin-bottom: 0px;">Upload Image<span style="color: red;">*</span></h6>
+                          </div>
+                          <div class="col s12">
+                            <input type="file" id="input-file-now-custom-2" name="attachment" class="dropify attachmentGrievance" required/>
+                          </div>
+                          <input type="hidden" name="" id="urlGrivance" value="{{url('/')}}">
+                        </div>
+                      </div>
+                    <!-- End Header -->
+
+                    <!-- Start footer -->
+                    <div class="row" style="border-top: 1px solid #a99c9cb3;">
+                      <div style="padding:20px 20px 0px 20px;">
+                        <div class="col s6 m6">
+                          <span id="errorGrievance">&nbsp;</span>
+                        </div>
+                        <div class="col s6 m6" style="text-align: right;">
+                          <img src="{{ URL::asset('public/asset/images/loader/loader.gif') }}" id="po_search_loader1" class="input_loader po_search_loader" style="width: 22px;height: 22px;display: none;padding-top: 5px;">
+                            <button type="submit" class="btn " name="action" id="raiseGrievance" style="background-color: green;padding: 1px 8px;" title="Click for submit grievance">Submit
+                            </button>
                         </div>
                       </div>
                     </div>
-                    <div class="modal-body">
-                      <form id="grievance_form">
-                        <div class="row">
-                          <div class=" col s12 m6">
-                            <div class=" col s12 m12">
-                              <h6 style="padding-bottom: 8px;">Title<span style="color: red;">*</span></h6>
-                              <input class="titleGrievance" aria-required="true" id="title" type="text" name="title" required>
-                            </div>	
-                                    
-                            <div class="col s12 m12">
-                              <div class="col s12 m12 l12">
-                                <h6>Description<span style="color: red;">*</span></h6> 
-                              </div>
-                              <div class="col s12 m12 l12">
-                                <textarea name="description" id="description" cols="30" rows="10" class="descriptionGrievance" required></textarea>
-                              </div>
-                            </div>
-
-                            <div class="col s12 m12">
-                            <img src="{{ URL::asset('public/asset/images/loader/loader.gif') }}" id="po_search_loader1" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;text-align: left;float: left;margin-left: -20px;margin-right: 10px;margin-top: 3px;">
-                              <button type="submit" class="btn waves-effect" name="action" id="raiseGrievance" style="background-color: green;" title="Click for submit grievance">Submit
-                                <i class="material-icons right" onclick="raiseGrievance()">send</i>
-                              </button>
-                            </div>
-                          </div>
-                                
-                          <div class="col s12 m6">
-                            <div class="col s12">
-                              <h6>Upload Image<span style="color: red;">*</span></h6>
-                            </div>
-                            <div class="col s12">
-                              <input type="file" id="input-file-now-custom-2" name="attachment" class="dropify attachmentGrievance" required/>
-                            </div>
-                            <input type="hidden" name="" id="urlGrivance" value="{{url('/')}}">
-                          </div>
-
-                          <div class="col s12 m12">
-                            <span id="errorGrievance">&nbsp;</span>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
+                    <!-- End footer -->
+                    </form>
                   </div>
                 </div>
 
-                <div class="row mt-5 mr-5 ml-5" id="successGrievance" style="display:none;">
-                  <div class="col s12 m12" style="text-align:right;">
-                    <button type="button" class="btn waves-effect button b-close" data-bs-dismiss="modal" title="Click for close model"><i class="material-icons">cancel</i></button>
-                  </div>
-                  <div class="col s12 m12">
-                    <h2 style="color:green;text-align:center;">Thank You! </h2> 
-                    <h3 style="color:blue;text-align:center;">We will resolve this issue as soon possible</h3>
+                <div class="row mt-10 mr-5 ml-5" id="successGrievance" style="display:none;">
+                  <div class="col s12 m12" style="text-align: center;">
+                    <div><img src="{{ URL::asset('public/asset/images/namaste.png') }}" alt="Namaste gif" style="height: 100px;width: 100px;"></div>
+                    <h2 style="color:green;">Thank You! </h2> 
+                    <h6>We will resolve this issue as soon possible</h6>
                   </div>
                 </div>
               </div>
               <!-- end grievance model pop up -->
-              <li class="hide-on-med-and-down" title="Click for raise grievance"><a href="#" id="modelGrievance"><i class="material-icons">error</i></a></li>
               <li class="hide-on-med-and-down"><a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);"><i class="material-icons">settings_overscan</i></a></li>
               <li class="hide-on-large-only"><a class="waves-effect waves-block waves-light search-button" href="javascript:void(0);"><i class="material-icons">search</i></a></li>
               <li><a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);" data-target="notifications-dropdown"><i class="material-icons">notifications_none<small class="notification-badge">{{count($requests)}}</small></i></a></li>

@@ -122,7 +122,10 @@
       });
     </script>
     <!-- /PASS THE CSRF TOKEN FOR AJAX REQUERT -->
-
+    <script src="{{ URL::asset('public/asset/js/jquery.bpopup.min.js') }}" type="text/javascript"></script>
+    
+    <!-- This js is use for grievance module -->
+    <script src="{{ URL::asset('public/asset/js/grievance.js') }}"></script>
 	@yield('scripts')
     <script src="{{ URL::asset('public/asset/js/dataTables.buttons.min.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('public/asset/js/buttons.html5.min.js') }}" type="text/javascript"></script>
@@ -130,8 +133,6 @@
 	<!-- Date Picker -->
 		<script src="{{ URL::asset('public/asset/js/jquery.datetimepicker.full.js') }}" type="text/javascript"></script>
 	<!-- /Date Picker -->
-    <script src="{{ URL::asset('public/asset/js/jquery.bpopup.min.js') }}" type="text/javascript"></script>
-	
 	<!-- Select2 -->
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<script>

@@ -64,6 +64,9 @@ jQuery(document).ready(function(){
                         jQuery('#modal-Grievance').hide();
                         jQuery('#successGrievance').show();
                     }, 3000);
+                    jQuery("#staticBackdrop").bPopup({
+                        autoClose: 1000 //Auto closes after 1000ms/1sec
+                    });
                 }else{
                     jQuery('#errorGrievance').css({'color' : 'red'}).html('Error While Submitting');
                     setTimeout(function() {
