@@ -510,6 +510,7 @@ Route::get('/clear-cache', function() {
 Route::post('/login-bycadmin-{id}', 'AdminController@bycadmin');
 
 //  grievance by admin or operator
+Route::get('/grievance', 'Resource\grievanceController@index');
 Route::post('/grievance/store', 'Resource\grievanceController@store');
 // Route::get('/grievance', 'Resource\grievanceController@index');
 // Route::get('/grievance/thanks', 'Resource\grievanceController@thanks');

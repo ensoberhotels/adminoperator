@@ -4,9 +4,6 @@ jQuery(document).ready(function(){
         jQuery('#successGrievance').hide();
         jQuery("#staticBackdrop").bPopup({
             modalClose: false,
-            // speed: 650,
-            // transition: 'slideIn',
-	        // transitionClose: 'slideBack'
         });
     });
 
@@ -63,10 +60,10 @@ jQuery(document).ready(function(){
                         jQuery('#errorGrievance').html('&nbsp;');
                         jQuery('#modal-Grievance').hide();
                         jQuery('#successGrievance').show();
-                    }, 3000);
-                    jQuery("#staticBackdrop").bPopup({
-                        autoClose: 1000 //Auto closes after 1000ms/1sec
-                    });
+                        setTimeout(function() {
+                            $('#staticBackdrop .b-close').trigger("click");
+                        }, 5000);
+                    }, 2500);
                 }else{
                     jQuery('#errorGrievance').css({'color' : 'red'}).html('Error While Submitting');
                     setTimeout(function() {

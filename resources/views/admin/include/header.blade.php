@@ -14,6 +14,7 @@
               <input class="header-search-input z-depth-2" type="text" name="Search" placeholder="Explore Materialize">
             </div>
             <ul class="navbar-list right">
+            <li class="hide-on-med-and-down" title="Click for check grievance status"><a href="{{ url('/grievance') }}"><i class="material-icons">question_mark</i></a></li>
             <!-- start grievance model pop up -->
             <li class="hide-on-med-and-down" title="Click for raise grievance"><a href="#" id="modelGrievance"><i class="material-icons">error</i></a></li>
             <!-- Modal -->

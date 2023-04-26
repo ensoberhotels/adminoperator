@@ -27,6 +27,20 @@ class grievanceController extends Controller
 		View::share('requests', $requests);
 	}
 
+    public function index(){
+        $user=session()->get('admin');
+        $loginType = $user['login_type'][0];
+        if ($loginType=='A') {
+            $company_id =  $user['comp_id'][0];
+            $grievances=grievance::orderBy('id','DESC')->where('from_id', $user['id'][0])->where('company_id', $company_id)->paginate(5);
+            return view('grievance.statusA',compact('grievances'));
+        } else {
+            $company_id =  $user['company_id'][0];
+            $grievances=grievance::orderBy('id','DESC')->where('from_id', $user['id'][0])->where('company_id', $company_id)->paginate(5);
+            return view('grievance.statusO',compact('grievances'));
+        }
+    }
+
     public function store(request $request){
         //dd($request->all());
 		\DB::beginTransaction();
@@ -38,10 +52,12 @@ class grievanceController extends Controller
                 $admin      =  Admin::where('id', $userID)->where('comp_admin_id', $user['comp_admin_id'][0])->where('comp_id', $user['comp_id'][0])->where('user_type', $loginType)->first();
                 $from_name  =  @$admin->user.' (Admin)';
                 $from_email =  @$admin->user_email;
+                $company_id =  $user['comp_id'][0];
             } else {
                 $oprator    =  Operator::where('id', $userID)->where('company_id', $user['company_id'][0])->where('property_id', $user['property_id'][0])->first();
                 $from_name  =  @$oprator->name.' (Operator)';
                 $from_email =  @$user->email;
+                $company_id =  $user['company_id'][0];
             }
             if($request->file('attachment')){
                 $name = time().'_'.$request->file('attachment')->getClientOriginalName();
@@ -57,6 +73,8 @@ class grievanceController extends Controller
             $data->attachment  = $name;
             $data->from_id     = $userID;  
             $data->from_name   = $from_name;
+            $data->company_id  = $company_id;
+            $data->status      = 'P';
             $save              = $data->save();
 
             $message="<table style='text-align: left;'>
