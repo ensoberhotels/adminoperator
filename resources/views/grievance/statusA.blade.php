@@ -83,11 +83,10 @@
                                     <td >{{$grievance->description}}</td>
                                     <td><a href="{{ asset('public/asset/images/grievance') }}/{{$grievance->attachment}}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('public/asset/images/grievance') }}/{{$grievance->attachment}}" height="50" width="50" alt="attachments"></td></a>
                                     <td>{{$grievance->from_name}}</td>
-                                    <td>
-                                        @if($grievance->status=='P') <span style="color: blue;">Pending</span> @endif
-                                        @if($grievance->status=='W') <span style="color: yellow;"><b>Working</b></span> @endif
-                                        @if($grievance->status=='D') <span style="color: green;">Done</span> @endif
-                                        
+                                    <td style="text-align: center;">
+                                      @if($grievance->status=='P') <span style="color: white;padding: 2px 7px;background-color: blue;">Pending</span> @endif
+                                      @if($grievance->status=='W') <span style="color: white;padding: 2px 6px;background-color: #cfcf28;"><b>Working</b></span> @endif
+                                      @if($grievance->status=='D') <span style="color: white;padding: 2px 18px;background-color: green;">Done</span> @endif
                                     </td>
                                 </tr>
                                 @php $i++;@endphp

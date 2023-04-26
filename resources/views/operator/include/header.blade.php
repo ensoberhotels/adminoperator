@@ -51,7 +51,7 @@
                               <h6 style="margin-bottom: 0px;">Upload Image<span style="color: red;">*</span></h6>
                             </div>
                             <div class="col s12">
-                              <input type="file" id="input-file-now-custom-2" name="attachment" class="dropify attachmentGrievance" required/>
+                              <input type="file" id="input-file-now-custom-2" name="attachment" class="dropify attachmentGrievance" accept=".jpg,.png" required/>
                             </div>
                             <input type="hidden" name="" id="urlGrivance" value="{{url('/')}}">
                           </div>
