@@ -8112,7 +8112,8 @@ nav.display-none.search-sm .nav-wrapper form .input-field input.search-box-sm:no
 }
 .brand-sidebar .logo-wrapper a.brand-logo img
 {
-    height: 18px;
+    width: 137px;
+    height: 30px;
 }
 .brand-sidebar .logo-wrapper a.navbar-toggler
 {
@@ -8156,7 +8157,7 @@ nav.display-none.search-sm .nav-wrapper form .input-field input.search-box-sm:no
     display: inline-block;
 
     margin: 1px 0;
-    padding: 22px 12px;
+    padding: 17px 7px;
 
     color: #333;
 }
