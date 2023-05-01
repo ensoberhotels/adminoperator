@@ -54,6 +54,7 @@ class OperatorResource extends Controller
                     ->join('sua_menu_masters', 'sua_menu_masters.id', '=', 'sua_company_privileges.menu_id')
                     ->where('sua_company_privileges.company_id', $user['comp_id'][0])
                     ->where('sua_company_privileges.permission', 'Y')
+                    ->where('sua_company_privileges.login_type', 'O')
                     ->get();
         $menu   = $menu->groupBy('module_id');
         // $menu      = MenuMaster::orderBy('id','ASC')->where('status', 'ACTIVE')->get();
@@ -178,6 +179,7 @@ class OperatorResource extends Controller
                         ->join('sua_menu_masters', 'sua_menu_masters.id', '=', 'sua_company_privileges.menu_id')
                         ->where('sua_company_privileges.company_id', $user['comp_id'][0])
                         ->where('sua_company_privileges.permission', 'Y')
+                        ->where('sua_company_privileges.login_type', 'O')
                         ->get();
             $menu   = $menu->groupBy('module_id');
             // dd($menu);
