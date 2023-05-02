@@ -61,7 +61,7 @@ class grievanceController extends Controller
             }
             if($request->file('attachment')){
                 $name = time().'_'.$request->file('attachment')->getClientOriginalName();
-                $destinationPath = public_path('/asset/images/grievance');
+                $destinationPath = public_path('public/asset/images/grievance');
                 $request->file('attachment')->move($destinationPath, $name);
             }else{
                 $name = '';
