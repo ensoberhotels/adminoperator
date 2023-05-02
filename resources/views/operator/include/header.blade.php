@@ -18,7 +18,7 @@
               <!-- start grievance model pop up -->
               <li class="hide-on-med-and-down" title="Click for raise grievance"><a href="#" id="modelGrievance"><i class="material-icons">error</i></a></li>
               <!-- Modal -->
-              <div class="modal mt-5" id="staticBackdrop" style="display:none;z-index:5; max-height: 430px; min-height:430px;">
+              <div class="mt-5" id="staticBackdrop" style="display:none;z-index:5; max-height: 430px; min-height:430px;   position: fixed;right: 0;left: 0;display: none;overflow-y: auto;width: 55%;max-height: 70%;margin: auto;padding: 0;border-radius: 2px;background-color: #fafafa;will-change: top, opacity;">
                   <button type="button" class="b-close" title="Click for close model" style="position: absolute;border: 0px;top: 2px;right: 0px;color: #4963c1;background-color: white;"><i class="material-icons" style="font-size: 32px;">cancel</i></button>
                   <div id="modal-Grievance">
                     <div class="row" style="border-bottom: 1px solid #a99c9cb3;padding-left: 20px;">
