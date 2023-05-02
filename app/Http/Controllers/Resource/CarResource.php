@@ -70,7 +70,7 @@ class CarResource extends Controller
             $data = new Car();
 
             if($request->hasFile('car_image')) {
-                $data->car_image = $request->car_image;
+                $data->car_image = $request->car_image->store('car_image');
             }
 			
             $data->car_segment_id = $request->car_segment_id;
