@@ -480,8 +480,8 @@
 												<div class="voucher_details" style="display: @if(@$quotation[0]->quotation_type == 'voucher') {{ 'block' }} @else {{'none'}} @endif">
 													
 													<div class="col s12 m6">
-														<label for="confirmed_by" class="">Confirmed By</label>
-														<input type="text" name="confirmed_by" id="confirmed_by" value="{{ @$quotation[0]->confirmed_by ?? 'Pragya' }}"> 
+														<label for="confirmed_by" class="">Your Name</label>
+														<input type="text" name="confirmed_by" id="confirmed_by" value="{{ @$quotation[0]->confirmed_by ?? '' }}"> 
 													</div>
 													<div class="col s12 m6 {{$con_class}}">
 														<label for="room_inventory_checkbox" class="">Room Inventory</label><br>
