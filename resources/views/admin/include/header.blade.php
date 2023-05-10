@@ -14,6 +14,18 @@
               <input class="header-search-input z-depth-2" type="text" name="Search" placeholder="Explore Materialize">
             </div>
             <ul class="navbar-list right">
+            <!-- Start search menu filter -->
+            <li class="hide-on-med-and-down">
+              <input type="text"  id="searchMenu_inp" placeholder="   search" onclick="menuSearchFunction()">
+              <img src="{{ URL::asset('public/asset/images/btn_loader.gif') }}" id="menu_search_loader" style="width: 18px;height: 16px;display: none;position: absolute;z-index: 100 !important;margin: 4.5px 0px 0px -43px!important;">
+              <i class="material-icons" id="menu_search_close" title="Click for cancel search">close</i>
+              <div id="searchMenu_div">
+                <ul id="searchMenu_ul">
+                </ul>
+              </div>
+            </li>
+            <!-- End search menu filter -->
+
             <li class="hide-on-med-and-down" title="Click for check grievance status"><a href="{{ url('/grievance') }}"><i class="material-icons">question_mark</i></a></li>
             <!-- start grievance model pop up -->
             <li class="hide-on-med-and-down" title="Click for raise grievance"><a href="#" id="modelGrievance"><i class="material-icons">error</i></a></li>

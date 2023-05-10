@@ -159,6 +159,7 @@
     
     <!-- This js is use for grievance module -->
     <script src="{{ URL::asset('public/asset/js/grievance.js') }}"></script>
+    <script src="{{ URL::asset('public/asset/js/menuSearch.js') }}"></script>
 	@yield('scripts')
     <script src="{{ URL::asset('public/asset/js/dataTables.buttons.min.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('public/asset/js/buttons.html5.min.js') }}" type="text/javascript"></script>

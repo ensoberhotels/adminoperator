@@ -518,3 +518,6 @@ Route::post('/grievance/store', 'Resource\grievanceController@store');
 // Admin Booking Source & From Master
 Route::resource('/admin/booking_from', 'Resource\BookingFromController');
 Route::resource('/admin/booking_source', 'Resource\BookingSourceController');
+
+//  menus search by admin or operator
+Route::get('/menusearch', 'Resource\menuSearchController@search');
