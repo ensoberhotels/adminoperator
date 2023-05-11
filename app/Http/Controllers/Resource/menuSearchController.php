@@ -27,7 +27,7 @@ class menuSearchController extends Controller
             $operator_id   =  $user['id'][0];
             $company_id    =  $user['company_id'][0];
             $property_id   =  $user['property_id'][0];
-            $admin_priv    =  DB::table('opt_file_privilage')->where('operator_id',$operator_id)->where('company_id',$company_id)->where('admin_id',$property_id)->pluck('menu_id')->toArray();
+            $admin_priv    =  DB::table('opt_file_privilage')->where('operator_id',$operator_id)->where('company_id',$company_id)->where('admin_id',$property_id)->where('menu_flag', 'Y')->pluck('menu_id')->toArray();
             $menus         =  MenuMaster::where('login_type', $loginType)->where('menu_flag', 'Y')->whereIn('id',$admin_priv)->where('type', 'FORM')->orderby('name', 'ASC')->get();
         }
 

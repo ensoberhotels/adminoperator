@@ -172,7 +172,7 @@
                         <div class="card-header" style="margin-left: 15px;display: inline-flex;">
                            <h5 style="font-size: 16px;color: #0505ac;">My Menu Manager</h5>
                            <button onclick="refresh()" class="btn btn-sm" style="background: #fff;box-shadow: none;"><i class="material-icons"  id="refresh" style="margin-top: 4px;color: red;margin-left: 9px;">refresh</i></button>
-                           <img src="/asset/images/refresh_loader.jpg" id="po_search_loader" class="input_loader po_search_loader" style="display: none;position: unset;width: 20px;height: 20px;text-align: left;float: right;margin-left: -21px;margin-right: 3px;margin-top: 11px">
+                           <img src="{{URL::asset('public/asset/images/refresh_loader.jpg')}}" id="po_search_loader" class="input_loader po_search_loader" style="display: none;position: unset;width: 20px;height: 20px;text-align: left;float: right;margin-left: -21px;margin-right: 3px;margin-top: 11px">
                         </div>
                         <div class="card-body">
                            <div class="row" style="margin-right: 0px;margin-left: 0px;">
@@ -200,7 +200,7 @@
                                                       <span onclick="return changeStatus({{$datas->id}})" name="action" class="td_status_inactive" >INACTIVE</span>
                                                    @endif
                                                    <input type="hidden" id="menu_flag_{{$datas->id}}" value="{{$datas->menu_flag}}">
-                                                   <img src="/asset/images/btn_loader.gif" id="po_search_loader{{$datas->id}}" class="input_loader po_search_loader" style="display: none;position: unset;width: 18px;height: 18px;text-align: left;float: right;margin-left: -24px;margin-right: 8px;margin-top: 2px;">
+                                                   <img src="{{URL::asset('public/asset/images/btn_loader.gif')}}" id="po_search_loader{{$datas->id}}" class="input_loader po_search_loader" style="display: none;position: unset;width: 18px;height: 18px;text-align: left;float: right;margin-left: -24px;margin-right: 8px;margin-top: 2px;">
                                                 </td>
                                              </tr>
                                              @php $i++; @endphp
