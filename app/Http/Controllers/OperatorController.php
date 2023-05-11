@@ -128,7 +128,7 @@ class OperatorController extends Controller
 	//menu status update
 	public function ChangeStatus(Request $request){
 		//dd($request->all());
-		$data=MenuMaster::where('id',$request->id)->update(['menu_flag'=>$request->flag]);
+		$data= DB::table('opt_file_privilage')->where('id',$request->id)->update(['menu_flag'=>$request->flag]);
 		if($data){
 			return response()->json(['status' => 1, 'msg' => 'Data Fetch Successfully!', 'data' => $request->flag]);
 		}
@@ -216,8 +216,12 @@ class OperatorController extends Controller
                        ->leftJoin('quotations', 'quotations.lead_id', '=', 'leads.id')
                        ->where('leads.assign_to',$operator_id[0])
                        ->orderBy('leads.id' , 'desc')->paginate(25);
-            $data=DB::table('opt_file_privilage')->where('company_id',$log_user['company_id'][0])->where('operator_id',$log_user['id'][0])->where('admin_id',$log_user['property_id'][0])->pluck('menu_id')->toArray();
-            $data=MenuMaster::where('login_type','O')->whereIn('id',$data)->get();
+            // $data=DB::table('opt_file_privilage')->where('company_id',$log_user['company_id'][0])->where('operator_id',$log_user['id'][0])->where('admin_id',$log_user['property_id'][0])->pluck('menu_id')->toArray();
+            // $data=MenuMaster::where('login_type','O')->whereIn('id',$data)->get();
+			$data= MenuMaster::select( 'sua_menu_masters.name', 'opt_file_privilage.id', 'opt_file_privilage.menu_flag')
+					->join('opt_file_privilage', 'opt_file_privilage.menu_id', '=', 'sua_menu_masters.id')
+					->where('opt_file_privilage.operator_id', $operator_id[0])
+					->orderBy('sua_menu_masters.name' , 'ASC')->get();
             return view('operator/dashboard', compact('new_count','active_count','inactive_count','hot_count','quotation_count','booked_count','leadlists','data'));
 		}else{
 			return redirect('/operator');

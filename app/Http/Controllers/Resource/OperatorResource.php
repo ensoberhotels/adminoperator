@@ -119,12 +119,15 @@ class OperatorResource extends Controller
                         $count  =   count($request->menus);
                         for ($x = 0; $x < $count; $x++)
                         {   
-                            $data = new OptFilePrivilage;
+                            $module = MenuMaster::select('module')->where('id', $request->menus[$x])->first();
+                            $data   = new OptFilePrivilage;
                             $data->operator_id      = $post->id;
+                            $data->module_id        = $module->module;
                             $data->menu_id          = $request->menus[$x];
                             $data->company_id       = $user['comp_id'][0];
                             $data->admin_id         = $user['id'][0];
                             $data->create_by        = $user['id']['0'];
+                            $data->menu_flag        = 'Y';
                             $data->save();
                         }
                     }
@@ -239,12 +242,15 @@ class OperatorResource extends Controller
                 $count  =   count($request->menus);
                 for ($x = 0; $x < $count; $x++)
                 {   
+                    $module = MenuMaster::select('module')->where('id', $request->menus[$x])->first();
                     $data = new OptFilePrivilage;
                     $data->operator_id      = $post->id;
+                    $data->module_id        = $module->module;
                     $data->menu_id          = $request->menus[$x];
                     $data->company_id       = $user['comp_id'][0];
                     $data->admin_id         = $user['id'][0];
                     $data->create_by        = $user['id']['0'];
+                    $data->menu_flag        = 'Y';
                     $data->save();
                 }
             }
