@@ -165,7 +165,7 @@
 				   </div>
 				</div> -->
 				<!--/ card stats end-->
-				<div class="row" style="margin-right: 0px;margin-left: 0px;">
+				{{--<div class="row" style="margin-right: 0px;margin-left: 0px;">
                <div class="col s6" style="margin-left: 0px;padding:0px;">
                   <div class="card" style="margin-left: 2px;margin-right: 2px;margin-top: 2px">
                      <div class="card-content" style="padding: 5px;">
@@ -214,7 +214,7 @@
                      </div>
                   </div>
                </div>
-            </div>
+            </div>--}}
       	</div>
      	</div>
    </div>
