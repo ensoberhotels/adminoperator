@@ -521,3 +521,9 @@ Route::resource('/admin/booking_source', 'Resource\BookingSourceController');
 
 //  menus search by admin or operator
 Route::get('/menusearch', 'Resource\menuSearchController@search');
+
+// File menu manager for admin
+Route::get('/admin/filemenu_manager', 'Resource\FileMenuManagerController@admin');
+
+// File menu manager for operator
+Route::get('/operator/filemenu_manager', 'Resource\FileMenuManagerController@operator');

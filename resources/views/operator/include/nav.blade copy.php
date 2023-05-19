@@ -6,9 +6,6 @@
 		<li class="active"><a class="collapsible-body active" href="{{URL::to('/operator/dashboard')}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>Dashboard</span></a></li>		
 		<li class="navigation-header"><a class="navigation-header-text">Applications</a><i class="navigation-header-icon material-icons">more_horiz</i></li>
 		@foreach($access_menus as $module=>$access_menu)
-			@if(count($access_menu)==0)
-				@continue
-			@endif
 			<li class="bold @if(in_array(Request::segment(1).Request::segment(2).Request::segment(3).Request::segment(4) , getModuleUrl($module), true)) {{ 'active' }} @endif">
 				<a class="collapsible-header waves-effect waves-cyan " href="#"><span class="menu-title" data-i18n="">{{@getModuleName($module)}}</span></a>
 				<div class="collapsible-body">
