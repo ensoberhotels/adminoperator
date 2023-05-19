@@ -223,7 +223,7 @@
 									@endforeach
 								</select>
 							@else
-								<select class="form-control distination" id="distination" class="one_distination" onchange="getRoomBookingStatus();">	
+								<select class="form-control distination" id="one_distination" onchange="getRoomBookingStatus();">	
 									@foreach($citiesh as $city)
 										<option value="{{ $city->city_id }}" selected>{{ getCityName($city->city_id) }}</option>
 									@endforeach
@@ -238,7 +238,7 @@
 									<option value="{{ $hotellist->id }}" @if(@$hotel->id == $hotellist->id) {{ 'selected' }} @endif>{{ $hotellist->hotel_name }}</option>
 								@endforeach
 							@else
-								<select class="form-control hotel_list" id="hotel_id" class="one_hotel_id" onchange="getRoomBookingStatus();">
+								<select class="form-control hotel_list" id="one_hotel_id" onchange="getRoomBookingStatus();">
 								@foreach($hotels as $hotellist)
 									<option value="{{ $hotellist->id }}" selected>{{ $hotellist->hotel_name }}</option>
 								@endforeach
@@ -368,15 +368,14 @@
 			}
 		});
 
-		// code for only one hotel
 		jQuery(document).ready(function(){	
-			// var one_distination 	= jQuery(".one_distination").val();
-			var one_hotel_id	 	= jQuery(".one_hotel_id").val();
-			// jQuery(".one_distination").val('OK');
-			jQuery(".one_hotel_id").val('OK');
+			var one_distination 	= jQuery("#one_distination").val();
+			var one_hotel_id	 	= jQuery("#one_hotel_id").val();
+			jQuery("#one_distination").val('OK');
+			jQuery("#one_hotel_id").val('OK');
 			setTimeout(() => {
-				// jQuery(".one_distination").val(one_distination);
-				jQuery(".one_hotel_id").val(one_hotel_id);
+				jQuery("#one_distination").val(one_distination);
+				jQuery("#one_hotel_id").val(one_hotel_id);
 			}, 1000);
 		});
     </script>

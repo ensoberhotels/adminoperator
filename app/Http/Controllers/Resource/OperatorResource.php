@@ -206,9 +206,9 @@ class OperatorResource extends Controller
             'name'          => 'required',
             'email'         => 'required|email|unique:operators,email,'.$id,
             //'password'      => 'required|min:6',
-            'country_id'       => 'required',
-            'region_id'         => 'required',
-            'city_id'          => 'required',            
+            // 'country_id'       => 'required',
+            // 'region_id'         => 'required',
+            // 'city_id'          => 'required',            
         ]);
         $user=session()->get('admin');
         try{
@@ -220,9 +220,9 @@ class OperatorResource extends Controller
                 if(!empty($request->password)){
                 $post->password     =   bcrypt($request->password);
                 }
-                $post->country_id      =   $request->country_id;
-                $post->region_id        =   $request->region_id;
-                $post->city_id         =   $request->city_id;
+                // $post->country_id      =   $request->country_id;
+                // $post->region_id        =   $request->region_id;
+                // $post->city_id         =   $request->city_id;
                 $post->room_inventory         =   $request->room_inventory;
                 $post->hotel         =   $request->hotel;
                 $post->view_only         =   $request->view_only;

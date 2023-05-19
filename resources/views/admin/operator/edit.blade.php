@@ -89,46 +89,46 @@
                 <label for="password">Password *</label>
                 <input id="password" type="password" name="password" value="">
               </div>
-                <div class="col s12 m2">
-					<label>Country</label>
-                    <select id="country_id" name="country_id" class="country_id"> 
-                        <option value="">Select Country</option>
-                        @foreach($Countries as $Country)
-                            @if($operator->country_id == $Country->id)
-                                <option value="{{ $Country->id }}" selected>{{ $Country->name }}</option>
-                            @else
-                                <option value="{{ $Country->id }}">{{ $Country->name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col s12 m2 region_list">
-					<label>State</label>
-                    <select id="region_id" name="region_id" class="region_id">
-                        <option value="">Select State</option>
-                        @foreach($Regions as $Region)
-                            @if($operator->region_id == $Region->id)
-                                <option value="{{ $Region->id }}" selected>{{ $Region->name }}</option>
-                            @else
-                                <option value="{{ $Region->id }}">{{ $Region->name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
+                {{--<div class="col s12 m2">
+                      <label>Country</label>
+                      <select id="country_id" name="country_id" class="country_id"> 
+                          <option value="">Select Country</option>
+                          @foreach($Countries as $Country)
+                              @if($operator->country_id == $Country->id)
+                                  <option value="{{ $Country->id }}" selected>{{ $Country->name }}</option>
+                              @else
+                                  <option value="{{ $Country->id }}">{{ $Country->name }}</option>
+                              @endif
+                          @endforeach
+                      </select>
+                    </div>
+                    <div class="col s12 m2 region_list">
+                      <label>State</label>
+                      <select id="region_id" name="region_id" class="region_id">
+                          <option value="">Select State</option>
+                          @foreach($Regions as $Region)
+                              @if($operator->region_id == $Region->id)
+                                  <option value="{{ $Region->id }}" selected>{{ $Region->name }}</option>
+                              @else
+                                  <option value="{{ $Region->id }}">{{ $Region->name }}</option>
+                              @endif
+                          @endforeach
+                      </select>
+                  </div>
             
                 <div class="col s12 m2 city_list get_suc_cat">
-					<label>City</label>
-                    <select id="city_id" name="city_id" class="get_suc_cat">
-                        <option value="">Select City</option>
-                        @foreach($Citys as $City)
-                            @if($operator->city_id == $City->id)
-                                <option value="{{ $City->id }}" selected>{{ $City->name }}</option>
-                            @else
-                                <option value="{{ $City->id }}">{{ $City->name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
+					        <label>City</label>
+                  <select id="city_id" name="city_id" class="get_suc_cat">
+                      <option value="">Select City</option>
+                      @foreach($Citys as $City)
+                          @if($operator->city_id == $City->id)
+                              <option value="{{ $City->id }}" selected>{{ $City->name }}</option>
+                          @else
+                              <option value="{{ $City->id }}">{{ $City->name }}</option>
+                          @endif
+                      @endforeach
+                  </select>
+                </div>--}}
 				
 				<div class="col s12 m2">
 					<label for="room_inventory">Room Inventory:</label><br>
@@ -175,31 +175,29 @@
 					</ul>
 				</div>
 				
-            </div>
-			<div class="row">
-            <div class="col s12 m2">
-                  <p>Status</p>
-                  <p>
-                    <label>
-                      <input class="validate" required="" aria-required="true" value="ACTIVE" name="status" type="radio" @if($operator->status=='ACTIVE') checked @endif>
-                      <span>ACTIVE</span>
-                    </label>
-                  </p>
+        <div class="col s12 m2">
+          <p>Status</p>
+          <p>
+            <label>
+              <input class="validate" required="" aria-required="true" value="ACTIVE" name="status" type="radio" @if($operator->status=='ACTIVE') checked @endif>
+              <span>ACTIVE</span>
+            </label>
+          </p>
 
-                  <label>
-                    <input class="validate" required="" aria-required="true" value="INACTIVE" name="status" type="radio" @if($operator->status=='INACTIVE') checked @endif>
-                    <span>INACTIVE</span>
-                  </label>
-                  <div class="input-field">
-                  </div>
-                </div>
-            
-                <div class="col s12 m2">
-                  <button class="btn cyan waves-effect waves-light right" type="submit" name="action" id="add_vender">Submit
-                    <i class="material-icons right">send</i>
-                  </button>
-                </div>
-				</div>
+          <label>
+            <input class="validate" required="" aria-required="true" value="INACTIVE" name="status" type="radio" @if($operator->status=='INACTIVE') checked @endif>
+            <span>INACTIVE</span>
+          </label>
+          <div class="input-field">
+          </div>
+        </div>
+    
+        <div class="col-12 s12 m2">
+          <button class="btn cyan waves-effect waves-light" type="submit" name="action" id="add_vender">Submit
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
 
       <div class="col-12">
 				<table>
