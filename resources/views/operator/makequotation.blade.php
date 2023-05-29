@@ -420,7 +420,7 @@
 												
 												<div class="col s12 m6">
 													<label for="email" class="">Email</label>
-													<input type="email" name="email" id="email" value="raj@ensoberhotels.com">
+													<input type="email" name="email" id="email">
 												</div>
 												<div class="col s12 m6">
 													<label for="discount" class="">Type</label>

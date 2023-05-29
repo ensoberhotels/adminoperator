@@ -75,10 +75,7 @@ class OperatorResource extends Controller
         $this->validate($request, [
             'name'          => 'required',
             'email'         => 'required|email|unique:operators',
-            'password'      => 'required|min:6',
-            'country_id'       => 'required',
-            'region_id'         => 'required',
-            'city_id'          => 'required',            
+            'password'      => 'required|min:6',           
         ]);
       try{
         $user=session()->get('admin');
@@ -100,14 +97,6 @@ class OperatorResource extends Controller
                 if(!empty($request->password)){
                 $post->password     =   bcrypt($request->password);
                 }
-                $post->country_id      =   $request->country_id;
-                $post->region_id        =   $request->region_id;
-                $post->city_id         =   $request->city_id;
-                $post->room_inventory         =   $request->room_inventory;
-                $post->hotel         =   $request->hotel;
-                $post->view_only         =   $request->view_only;
-                $post->room_status         =   $request->room_status;
-                $post->assigned_hotels         =  (isset($request->assigned_hotels) ? $assigned_hotels : ' ');
                 $post->status       =   (isset($request->status) ? $request->status : 'ACTIVE'); 
                 $post->property_id=$user['id'][0];
                 $post->company_id=$user['comp_id'][0];
@@ -204,11 +193,7 @@ class OperatorResource extends Controller
         DB::beginTransaction(); 
         $this->validate($request, [
             'name'          => 'required',
-            'email'         => 'required|email|unique:operators,email,'.$id,
-            //'password'      => 'required|min:6',
-            // 'country_id'       => 'required',
-            // 'region_id'         => 'required',
-            // 'city_id'          => 'required',            
+            'email'         => 'required|email|unique:operators,email,'.$id,      
         ]);
         $user=session()->get('admin');
         try{
@@ -218,16 +203,8 @@ class OperatorResource extends Controller
                 $post->name	       	=   $request->name;
                 $post->email   	    =   $request->email;
                 if(!empty($request->password)){
-                $post->password     =   bcrypt($request->password);
+                    $post->password     =   bcrypt($request->password);
                 }
-                // $post->country_id      =   $request->country_id;
-                // $post->region_id        =   $request->region_id;
-                // $post->city_id         =   $request->city_id;
-                $post->room_inventory         =   $request->room_inventory;
-                $post->hotel         =   $request->hotel;
-                $post->view_only         =   $request->view_only;
-                $post->room_status         =   $request->room_status;
-                $post->assigned_hotels         =   $assigned_hotels;
                 $post->status       =   $request->status; 
                 $post->property_id=$user['id'][0];
                 $post->company_id=$user['comp_id'][0];               

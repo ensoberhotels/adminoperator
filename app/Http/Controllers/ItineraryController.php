@@ -950,7 +950,9 @@ class ItineraryController extends Controller
 				$lead->send_quotation_no = $send_quotation_no;
 				$lead->name = $request->name;
 				$lead->mobile = $request->mobile;
-				$lead->email = $request->email;
+				if(!empty($request->email)){
+					$lead->email = $request->email;
+				}
 				$lead->hotel_id = $request->hotel;
 				$lead->location = $hotel->googleaddress;
 				$lead->country_id = $hotel->country_id;

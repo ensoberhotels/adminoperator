@@ -80,78 +80,15 @@
 			  <div class="col s12 m2">
 				<label for="password">Password *</label>
 				<input id="password" type="password" name="password" value="{{ old('password') }}">
-			  </div>
-         
-            <div class="col s12 m2">
-				<label for="country_id">Country *</label>
-				<select id="country_id" name="country_id" class="country_id"> 
-					<option value="1">Select Country</option>
-					@foreach($Countries as $Country)
-						<option value="{{ $Country->id }}">{{ $Country->name }}</option>
-					@endforeach
-				</select>
-            </div>
-			<div class="col s12 m2 region_list">
-				<label for="region_id">State</label>
-				<select id="region_id" name="region_id" class="region_id">
-				  <option value="2">Select State</option>
-				</select>
-			</div>
-			<div class="col s12 m2 city_list get_suc_cat">
-				<label for="city_id">City</label>
-				<select id="city_id" name="city_id" class="get_suc_cat">
-				  <option value="3">Select City</option>
-				</select>
-			</div>
-			<div class="col s12 m2">
-				<label for="room_inventory">Room Inventory:</label><br>
-				<select class="form-control hotel_list" name="room_inventory" id="room_inventory">
-					<option value="N">No</option>
-					<option value="Y">Yes</option>
-				</select>
-			</div>
-			<div class="col s12 m2 room_inven_hotel" style="display:none;">
-				<label for="hotel">Hotel:</label><br>
-				<select class="form-control hotel_list" name="hotel" id="hotel">
-					<option></option>
-					@foreach($hotels as $hotel)
-						<option value="{{ $hotel->id }}">{{ $hotel->hotel_name }}</option>
-					@endforeach
-				</select>
-			</div>
+			  </div>		
 			
-			<div class="col s12 m2 room_inven_hotel" style="display:none;">
-				<label for="view_only">View Only:</label><br>
-				<select class="form-control hotel_list" name="view_only" id="view_only">
-					<option value="Y">Yes</option>
-					<option value="N">No</option>
-				</select>
+				<div class="col s12 m2">
+					<br>
+					<button class="btn cyan waves-effect waves-light right" type="submit" name="action" id="add_vender">Submit
+						<i class="material-icons right">send</i>
+					</button>
+				</div>
 			</div>
-			
-			<div class="col s12 m2">
-				<label for="room_status">Room Status:</label><br>
-				<select class="form-control" name="room_status" id="room_status">
-					<option value="N">No</option>
-					<option value="Y">Yes</option>
-				</select>
-			</div>
-			<div class="col s12 m8 room_status_hotel" style="display:none;">
-				<label for="hotel">Hotels:</label><br>
-				<ul id="hotels">
-					@foreach($hotels as $hotel)
-						<li> <input type="checkbox" value="{{ $hotel->id }}" name="assigned_hotels[]" class="form-control check_hotel" /> <p>{{ $hotel->hotel_name }}</p></li>
-					@endforeach
-				</ul>
-			</div>
-			
-			
-			
-			<div class="col s12">
-			  <button class="btn cyan waves-effect waves-light right" type="submit" name="action" id="add_vender">Submit
-				<i class="material-icons right">send</i>
-			  </button>
-			</div>
-            </div>
 
 			<div class="col-12">
 				<table>

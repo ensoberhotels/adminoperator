@@ -75,12 +75,6 @@
                     </th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Country</th>
-                    <th>State</th>
-                    <th>City</th>
-                    <th>Room Inventory</th>
-                    <th>Assigned Hotel</th>
-                    <th>View Only</th>
                     <th class="no-sort">Status</th>
                     <th class="no-sort">Action</th>
                   </tr>
@@ -96,12 +90,6 @@
                     </th>
                     <td>{{ $operator->name }}</td>
                     <td>{{ $operator->email }}</td>
-                    <td>{{ $operator->country_id }}</td>
-                    <td>{{ $operator->region_id }}</td>
-                    <td>{{ $operator->city_id }}</td>
-                    <td>{{ @$operator->room_inventory }}</td>
-                    <td>{{ @$operator->hotelName->hotel_name }}</td>
-                    <td>{{ @$operator->view_only }}</td>
                     <td>
                         <div class="switch">
                           <label onchange="change_status('{{$operator->id}}','Operator' )">

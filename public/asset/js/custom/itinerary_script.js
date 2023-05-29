@@ -61,9 +61,10 @@ function getNoOfDay(fromdate, todate){
 			validate_status = false;
 		}
 		if(email == ''){
-			jQuery(".error_msg").text("Email is required!");
-			validate_status = false;
-		}else{
+			// jQuery(".error_msg").text("Email is required!");
+			// validate_status = false;
+		}
+		else{
 			var emailReg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			if(!emailReg.test(email)){
 				jQuery(".error_msg").text("Please enter valid email!");
