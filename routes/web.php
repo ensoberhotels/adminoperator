@@ -527,3 +527,8 @@ Route::get('/admin/filemenu_manager', 'Resource\FileMenuManagerController@admin'
 
 // File menu manager for operator
 Route::get('/operator/filemenu_manager', 'Resource\FileMenuManagerController@operator');
+
+// Create Voucher
+Route::get('operator/createvoucher/', 'CreateVoucherController@createvoucher');
+Route::get('operator/createvoucher/{id}', 'CreateVoucherController@getVoucher');
+Route::post('operator/generatevoucher', 'CreateVoucherController@generateVoucher');
