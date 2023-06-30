@@ -423,12 +423,12 @@
 													<input type="email" name="email" id="email">
 												</div>
 												
-												<!-- Quotation Note -->
+												{{--<!-- Quotation Note -->
 												<div class="col s12 m12"> 
 													<label for="quotation_note">Quotation Comments:</label><br>
 													<textarea class="form-control " name="quotation_note" id="quotation_note" style="font-size: 12px;">{{ @$quotation[0]->quotation_note }}</textarea>
 												</div>
-												<!-- /Quotation Note -->
+												<!-- /Quotation Note -->--}}
 
 												<div class="col s12 m6">
 													<label for="confirmed_by" class="">Confirmed By</label>

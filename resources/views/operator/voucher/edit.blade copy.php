@@ -438,7 +438,7 @@
 										</div>
 										<div class="collapsible-body">
 											<div class="">
-											<div class="col s12 m6">
+												<div class="col s12 m6">
 													<label for="name" class="">Name</label>
 													<input type="text" name="name" id="name" value="{{ $lead->name }}">
 												</div>
@@ -607,7 +607,7 @@
 												<div class="col s12 m12 send_q_btn_area" style="text-align: center; margin-top: 5px !important;">
 												<!--<h6 class="final_cost_val"></h6>-->
 													<input type="hidden" value="{{ @$quotation[0]->send_quotation_no }}" name="send_quotation_no" id="send_quotation_no"/>
-													<button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light generate_send_quo" onclick="generateQuotation();">View</button>
+													<!-- <button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light generate_send_quo" onclick="createVoucher();">View</button> -->
 													
 													@if(@$_GET['update'] == 1)
 														<a href="/operator/roomsstatus"><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light">Go Back</button></a>
@@ -617,12 +617,12 @@
 														<h5>Total Price: <span class="update_mode_t_price">2633</span>/-</h5>
 													@endif
 													
-													<button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_send_quo {{$con_class}}" onclick="sendQuotation();" style="display:none;">Send Quotation</button>
+													<button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_send_quo {{$con_class}}" onclick="sendQuotation();">Send Quotation</button>
 													<input type="hidden" value="https://ensoberfiles.s3.amazonaws.com/quotations/{{ @$quotation[0]->send_quotation_no }}.pdf" id="quot_pdf" />
 													
-													<a href="https://ensoberfiles.s3.amazonaws.com/quotations/{{ @$quotation[0]->send_quotation_no }}.pdf" target="_blank" class="{{$con_class}}" ><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_copy_quo {{$con_class}}" style="display:none;">View</button></a>
+													<a href="https://ensoberfiles.s3.amazonaws.com/quotations/{{ @$quotation[0]->send_quotation_no }}.pdf" target="_blank" class="{{$con_class}}" ><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_copy_quo {{$con_class}}">View</button></a>
 													
-													<a href="https://ensoberfiles.s3.amazonaws.com/quotations/{{ @$quotation[0]->send_quotation_no }}.pdf" target="_blank" class="{{$con_class}}" download ><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_copy_quo" style="display:none;">Download</button></a>
+													<a href="https://ensoberfiles.s3.amazonaws.com/quotations/{{ @$quotation[0]->send_quotation_no }}.pdf" target="_blank" class="{{$con_class}}" download ><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_copy_quo">Download</button></a>
 													
 													<p style="color:green;" class="send_quotation_msg"></p>
 													<p style="color:red;" class="error_msg"></p>
@@ -679,7 +679,7 @@
 														</tbody>
 													</table> 
 													</div> 
-													<div style="text-align:right;" class="rate_canculate {{$con_class}}"> 
+													<div style="text-align:right;" class="rate_canculate"> 
 														<button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_edit_rate_quo fgsilement" onclick="editQuotationRate();">Edit Price</button>
 														<button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_confirm_rate_quo" onclick="updateQuotationRate();" style="display:none;">Confirm</button>
 													</div> 
