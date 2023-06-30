@@ -456,7 +456,7 @@
 													<label for="discount" class="">Discount</label>
 													<input type="number" min="0" value="0" name="discount" id="discount" value="{{ @$quotation[0]->discount }}">
 												</div> 
-												<div class="col s12 m6 {{$con_class}}">
+												<div class="col s12 m6 {{$con_class}}" style="display:none;">
 													<label for="discount" class="">Type</label>
 													<select id="quotation_type" name="quotation_type" onchange="changeSendQuotationBtnText();">
 														<option value="quotation" @if(@$quotation[0]->quotation_type == 'quotation') {{ 'selected' }} @endif>Quotation</option>
@@ -552,7 +552,7 @@
 														<textarea name="voucher_note" style="font-size: 12px;" id="voucher_note" class="">{{ @$quotation[0]->voucher_note }}</textarea>
 													</div>
 												</div>
-												<!-- /Voucher Details Fiels -->
+												<!-- /Voucher Details Fiels -->	
 												
 												<div class="col s6 m6 {{$con_class}}"> 
 													<label for="agent_details" class="">Agent Details</label><br>
