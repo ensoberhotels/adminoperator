@@ -175,7 +175,7 @@
                                   <option value="Cold" @if( old('lead_priority') == 'Cold') selected @endif>Cold</option>
                                 </select>
                             </div>
-							<div class=" col s12 m2 show_select">
+							<div class=" col s12 m2 show_select" style="display: none;">
 								<label>Enquiry For</label>
 								<select id="enquiry_type" name="enquiry_type" required>
 								  <option value="" @if( old('enquiry_type') == '') selected @endif>Select Enquiry For</option>
