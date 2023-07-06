@@ -121,8 +121,8 @@ Route::post('admin/ajaxChangeApprovel', 'AjaxController@ChangeApprovel');
 Route::post('admin/getcarmodel', 'AjaxController@getCarModelByCarSegmentID');
 Route::post('admin/getcarseats', 'AjaxController@getCarSeatsByCarModelID');
 Route::post('admin/ajaxgetCarDetail', 'AjaxController@getCarDetail');
-//Route::post('admin/ajaxAsignContacts', 'AjaxController@AsignContacts');
-Route::post('admin/ajaxAsignContacts', 'AjaxController@AsignContacts_old');
+Route::post('admin/ajaxAsignContacts', 'AjaxController@AsignContacts');
+// Route::post('admin/ajaxAsignContacts', 'AjaxController@AsignContacts_old');
 Route::post('admin/ajaxcreateCampaign', 'AjaxController@createCampaign');
 
 

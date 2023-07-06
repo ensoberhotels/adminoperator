@@ -417,6 +417,17 @@
 		jQuery("select").each(function(){
 			jQuery(this).attr('tabindex', 0);
 		});
+
+    // code for only for default
+      jQuery("#enquiry_type").val('Own Hotel');
+      $('#hotel_enquiry').show();
+      $('#other_enquiry_field').hide();
+      $('.hotel_type_d').hide();
+      $('.country_id_d').hide();
+      $('.region_id_d').hide();
+      $('.city_id_d').hide();
+      $('.googleaddress_d').hide();
+
       $('#lead_source').change(function() {
             var value = $(this).val();
             if (value == 'Travel Agent' || value == 'Reference'){
