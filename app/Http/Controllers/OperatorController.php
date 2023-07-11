@@ -325,7 +325,7 @@ class OperatorController extends Controller
     public function assignContacts(Request $request)
     {
 		$operator_id = session()->get('operator');  
-        $Contacts = AssignContacts::where('company_id',$operator_id['company_id'][0])->where('property_id',$operator_id['property_id'][0])->where('user_id',$operator_id['id'][0])->where('status', 'ACTIVE')->with('followUpComment')->orderBy('id' , 'desc')->paginate(10);
+        $Contacts = AssignContacts::where('company_id',$operator_id['company_id'][0])->where('property_id',$operator_id['property_id'][0])->where('operator_id',$operator_id['id'][0])->where('status', 'ACTIVE')->with('followUpComment')->orderBy('id' , 'desc')->paginate(10);
         $contact_types = Contacts::distinct()->get(['contact_type']);
         $sources  = Contacts::distinct()->get(['source']);
         $Operators = Operator::where('status', 'ACTIVE')->get();

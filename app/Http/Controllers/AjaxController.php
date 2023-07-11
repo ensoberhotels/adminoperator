@@ -859,6 +859,7 @@ public function GetLeadDetail(Request $request){
      */
     public function AsignContacts(Request $request)
     {       
+        $admin_id = session()->get('admin');
         try {
             $found_record = 0;
 			
@@ -883,19 +884,21 @@ public function GetLeadDetail(Request $request){
 				if($request->assign_contact_no > $found_record){
 					// Save Data in Assign contact table
 					$assign_contact = new AssignContacts();
-					$assign_contact->mobile        =   $Contact->mobile;
-					$assign_contact->email         =   $Contact->email;
-					$assign_contact->name          =   $Contact->name;
-					$assign_contact->location      =   $Contact->location;
-					$assign_contact->contact_type      =   $Contact->contact_type;
-					$assign_contact->category      =   $Contact->category;
-					$assign_contact->website      =   $Contact->website;
-					$assign_contact->additional_info      =   $Contact->additional_info;
-					$assign_contact->agency_name      =   $Contact->agency_name;
-					$assign_contact->source      =   $Contact->source;
-					$assign_contact->contact_id      =   $Contact->id;
-					$assign_contact->operator_id      =   $request->assign_to;
-					$assign_contact->status        =   $Contact->status;
+					$assign_contact->mobile          = $Contact->mobile;
+					$assign_contact->email           = $Contact->email;
+					$assign_contact->name            = $Contact->name;
+					$assign_contact->location        = $Contact->location;
+					$assign_contact->contact_type    = $Contact->contact_type;
+					$assign_contact->category        = $Contact->category;
+					$assign_contact->website         = $Contact->website;
+					$assign_contact->additional_info = $Contact->additional_info;
+					$assign_contact->agency_name     = $Contact->agency_name;
+					$assign_contact->source          = $Contact->source;
+					$assign_contact->contact_id      = $Contact->id;
+					$assign_contact->operator_id     = $request->assign_to;
+					$assign_contact->status          = $Contact->status;
+					$assign_contact->company_id      = $admin_id['comp_id'][0];
+					$assign_contact->property_id     = $admin_id['id'][0];
 					$assign_contact->save(); 
 					
 					// Update the status of contact in contacts table

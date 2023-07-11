@@ -169,6 +169,9 @@ class ItineraryController extends Controller
 			}
 			if($request->send_quotation_no != ''){
 				$SendQuotation = SendQuotation::where('send_quotation_no', $request->send_quotation_no)->first();
+				if (!$SendQuotation) {
+					return back()->with('flash_error', "Incorrect quotation no. $request->send_quotation_no");
+				}
 				if($SendQuotation->checkin_checkout_status == 'closed'){
 					return back()->with('payment_add_back', '0');
 				}
