@@ -629,7 +629,9 @@
 													
 													<a href="https://ensoberfiles.s3.amazonaws.com/quotations/{{ @$quotation[0]->send_quotation_no }}.pdf" target="_blank" class="{{$con_class}}" ><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_copy_quo {{$con_class}}" style="display:none;">View</button></a>
 													
-													<a href="https://ensoberfiles.s3.amazonaws.com/quotations/{{ @$quotation[0]->send_quotation_no }}.pdf" target="_blank" class="{{$con_class}}" download ><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_copy_quo" style="display:none;">Download</button></a>
+													<!-- <a href="https://ensoberfiles.s3.amazonaws.com/quotations/{{ @$quotation[0]->send_quotation_no }}.pdf" target="_blank" class="{{$con_class}}" download ><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_copy_quo" style="display:none;">Download</button></a> -->
+													
+													<a href="https://portal.ensober.com/storage/app/public/quotations/{{ @$company_name }}/{{ @$quotation[0]->send_quotation_no }}.pdf" target="_blank" class="" download ><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_copy_quo" >Download</button></a>
 													
 													<p style="color:green;" class="send_quotation_msg"></p>
 													<p style="color:red;" class="error_msg"></p>
