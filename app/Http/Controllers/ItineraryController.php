@@ -911,9 +911,9 @@ class ItineraryController extends Controller
     public function generateSendQuotation(Request $request)
     { 
 		//dd($request->all());room_inventory_checkbox
-		//DB::beginTransaction();
+		DB::beginTransaction();
 
-		//try {
+		try {
 			// Check room type not blank
 			foreach($request->daywaise['room_type'] as $room_type){
 				if($room_type == ''){
@@ -935,7 +935,9 @@ class ItineraryController extends Controller
 			
 			
 			//dd($final_checkin);
-			$operator_id = session()->get('operator.id'); 
+			$operator_id = session()->get('operator.id');
+			$company_id = session()->get('operator.company_id');
+			$property_id = session()->get('operator.property_id');
 			$hotel = $this->getHotelDetailsById($request->hotel);
 			if($request->send_quotation_no != ''){
 				$send_quotation_no = $request->send_quotation_no; 
@@ -971,6 +973,9 @@ class ItineraryController extends Controller
 				$lead->status = 'ACTIVE';//'INACTIVE';
 				$lead->assign_to = $operator_id[0];
 				$lead->lead_status = 'SENDQUOTATION';
+				$lead->company_id = $company_id;
+				$lead->property_id = $property_id;
+				$lead->user_id = $operator_id;
 				$lead->save();
 				
 				// Add Contact
@@ -984,6 +989,9 @@ class ItineraryController extends Controller
                 $create_contact->last_lead_no  =   $lead_no;
                 $create_contact->lead_count    =   1;
                 $create_contact->status        =   'ACTIVE';
+				$create_contact->company_id = $company_id;
+				$create_contact->property_id = $property_id;
+				$create_contact->user_id = $operator_id;
                 $create_contact->save();
 				
 				// Add agent contact
@@ -1272,6 +1280,9 @@ class ItineraryController extends Controller
 					$sendquotation->payment_snapshot = $request->payment_snapshot;
 					$sendquotation->status = 'ACTIVE';
 					$sendquotation->indexing = $x;
+					$sendquotation->company_id = $company_id;
+					$sendquotation->property_id = $property_id;
+					$sendquotation->user_id = $operator_id;
 					$sendquotation->save();
 					
 					$open_img_popup = 0;
@@ -1913,16 +1924,16 @@ class ItineraryController extends Controller
 											<!---- ======== Cancelation Policy ======== ------>
 										</main>
 											</body></html>'; 
-			//DB::commit();
+			DB::commit();
 			$this->savePdfQuotation($send_quotation_no,$send_quo_html);
 			echo json_encode(array('status'=>true,'msg'=>'Quotation Generated', 'final_cost_val' => $final_cost, 'send_message' => $send_quo_html, 'send_quotation_no' => $send_quotation_no, 'quotation_rate' => $quotation_rate, 'subject' => $subject, 'email_body' => $email_body, 'final_cost' => $request->final_cost, 'open_img_popup' => $open_img_popup)); 
 			
 			
-		/* } catch (\Exception $e) {
+		} catch (\Exception $e) {
 			// something went wrong
 			DB::rollback();
 			echo json_encode(array('status'=> false,'msg'=>'Quotation Generating Issue! '.$e, 'final_cost_val' => '', 'send_message' => '', 'send_quotation_no' => '', 'quotation_rate' => '', 'subject' => '', 'email_body' => '', 'final_cost' => ''));
-		}  */
+		} 
         
     }
 	
