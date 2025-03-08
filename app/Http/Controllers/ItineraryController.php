@@ -973,9 +973,9 @@ class ItineraryController extends Controller
 				$lead->status = 'ACTIVE';//'INACTIVE';
 				$lead->assign_to = $operator_id[0];
 				$lead->lead_status = 'SENDQUOTATION';
-				$lead->company_id = $company_id;
-				$lead->property_id = $property_id;
-				$lead->user_id = $operator_id;
+				$lead->company_id = $company_id[0];
+				$lead->property_id = $property_id[0];
+				$lead->user_id = $operator_id[0];
 				$lead->save();
 				
 				// Add Contact
@@ -989,9 +989,9 @@ class ItineraryController extends Controller
                 $create_contact->last_lead_no  =   $lead_no;
                 $create_contact->lead_count    =   1;
                 $create_contact->status        =   'ACTIVE';
-				$create_contact->company_id = $company_id;
-				$create_contact->property_id = $property_id;
-				$create_contact->user_id = $operator_id;
+				$create_contact->company_id = $company_id[0];
+				$create_contact->property_id = $property_id[0];
+				$create_contact->user_id = $operator_id[0];
                 $create_contact->save();
 				
 				// Add agent contact
@@ -1280,9 +1280,9 @@ class ItineraryController extends Controller
 					$sendquotation->payment_snapshot = $request->payment_snapshot;
 					$sendquotation->status = 'ACTIVE';
 					$sendquotation->indexing = $x;
-					$sendquotation->company_id = $company_id;
-					$sendquotation->property_id = $property_id;
-					$sendquotation->user_id = $operator_id;
+					$sendquotation->company_id = $company_id[0];
+					$sendquotation->property_id = $property_id[0];
+					$sendquotation->user_id = $operator_id[0];
 					$sendquotation->save();
 					
 					$open_img_popup = 0;
