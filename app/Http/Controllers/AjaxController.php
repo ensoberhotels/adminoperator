@@ -1483,9 +1483,10 @@ public function GetLeadDetail(Request $request){
      *
      * @return html
      */
-    public function getHotelsByCityId(Request $request){
+    public function getHotelsByCityId(Request $request){ 
 		DB::enableQueryLog();
-        $hotels = Hotel::where('city_id', $request->city_id)->get();
+        $user=session()->get('admin');
+        $hotels = Hotel::where('city_id', $request->city_id)->where('company_id',$user['company_id'][0])->where('property_id',$user['property_id'][0])->get();
 		$que = DB::getQueryLog();
             $html = '<option value="">Select Hotel</option>';
         foreach($hotels as $hotel){
