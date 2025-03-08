@@ -21,6 +21,7 @@ use App\Vender;
 use App\ActivityVoucher;
 use App\AgentContact;
 use App\PaymentSource;
+use App\CompanyMaster;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -152,6 +153,16 @@ class Controller extends BaseController
     public function getCityNameById($city_id){ 
         $city = City::where('id', $city_id)->first();
         return $city->name;
+    }
+
+	/**
+     * This function use for get company name by id
+     *
+     * @return html
+     */
+    public function getCompanyNameById($id){ 
+        $company = CompanyMaster::where('id', $id)->first();
+        return $company->company_name;
     }
 	
 	/**

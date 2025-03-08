@@ -3484,12 +3484,14 @@ class ItineraryController extends Controller
 	
 	// Save Quotation in PDF
 	public function savePdfQuotation($quotation_no, $html){
+		$company_id = session()->get('operator.company_id');
+		$company_name = strtolower(str_replace(' ','-',$this->getCompanyNameById($company_id[0])));
 		$pdf = PDF::loadHTML($html);
 		$path = storage_path('app/quotations');
 		$fileName = $quotation_no. '.' . 'pdf' ;
 		//$pdf->save($path . '/' . $fileName);
-		\Storage::disk('s3')->put('quotations/'.$fileName, $pdf->output(), 'public');
-		$url = \Storage::disk('s3')->url('quotations/'.$fileName);
+		\Storage::disk('s3')->put('quotations/'.$company_name.'/'.$fileName, $pdf->output(), 'public');
+		$url = \Storage::disk('s3')->url('quotations/'.$company_name.'/'.$fileName);
     }
 	
 	public function savePdfVoucher($id){
