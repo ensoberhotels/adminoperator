@@ -81,7 +81,7 @@
                                     <td style="display: inline-block;">{{$i}}</td>
                                     <td >{{$grievance->title}}</td>
                                     <td >{{$grievance->description}}</td>
-                                    <td><a href="{{ asset('public/public/asset/images/grievance') }}/{{$grievance->attachment}}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('public/asset/images/grievance') }}/{{$grievance->attachment}}" height="50" width="50" alt="attachments"></td></a>
+                                    <td><a href="{{ asset('public/public/asset/images/grievance') }}/{{$grievance->attachment}}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('public/public/asset/images/grievance') }}/{{$grievance->attachment}}" height="50" width="50" alt="attachments"></td></a>
                                     <td>{{$grievance->from_name}}</td>
                                     <td style="text-align: center;">
                                       @if($grievance->status=='P') <span style="color: white;font-size: 12px;border-radius: 5px;padding: 4px 7px;background-color: blue;">Pending</span> @endif
