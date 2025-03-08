@@ -1721,11 +1721,11 @@ class ItineraryController extends Controller
 										
 										<footer>
 											<div class="iti_foo_left">
-												<img src="/public/asset/company_logo/'.$company->c_logo.'"/>
+												<img src="https://enscompanyadmin.rstechnosoft.com/public/asset/company_logo/'.$company->c_logo.'"/>
 											</div>
 											<div class="iti_foo_middil">
 												<b>'.$company->company_name.'</b><br>
-												'. $company->c_logo.'
+												'. $company->company_name.'
 											</div>
 											<div class="iti_foo_right">
 												<b>Contact Information</b><br>
