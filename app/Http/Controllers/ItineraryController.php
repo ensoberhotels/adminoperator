@@ -322,9 +322,11 @@ class ItineraryController extends Controller
 			$booking_detail = RoomBookedDetails::where('send_quotation_no', $quotation_no)->first();
 			$booking_froms	=	BookingFrom::where('company_id', $session_data['company_id'][0])->get();
 			$booking_sources =   BookingSource::where('company_id', $session_data['company_id'][0])->get();
+			$company_name = $this->getCompanyNameById($session_data['company_id'][0]);
+			$company_name = strtolower(str_replace(' ','-', $company_name));
 			// dd($session_data, $quotation_no, $booking_froms, $booking_sources);
 
-            return view('operator/getquotation',compact('hotels', 'citiesh','quotation','lead','roomtypes','roomsrate','booking_detail', 'booking_froms', 'booking_sources')); 
+            return view('operator/getquotation',compact('company_name','hotels', 'citiesh','quotation','lead','roomtypes','roomsrate','booking_detail', 'booking_froms', 'booking_sources')); 
         } catch (ModelNotFoundException $e) {
             return $e;
         }

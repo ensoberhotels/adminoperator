@@ -617,7 +617,9 @@
 													@if(@$_GET['update'] == 1)
 														<a href="/operator/roomsstatus"><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light">Go Back</button></a>
 														
-														<a href="https://ensoberfiles.s3.amazonaws.com/quotations/{{ @$quotation[0]->send_quotation_no }}.pdf" target="_blank" class="" download ><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_copy_quo" >Download</button></a>
+														<!-- <a href="https://ensoberfiles.s3.amazonaws.com/quotations/{{ @$quotation[0]->send_quotation_no }}.pdf" target="_blank" class="" download ><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_copy_quo" >Download</button></a> -->
+
+														<a href="https://portal.ensober.com/storage/app/public/quotations/{{ @$company_name }}/{{ @$quotation[0]->send_quotation_no }}.pdf" target="_blank" class="" download ><button type="button" class="btn waves-effect gradient-45deg-red-pink waves-light btn_copy_quo" >Download</button></a>
 													
 														<h5>Total Price: <span class="update_mode_t_price">2633</span>/-</h5>
 													@endif
