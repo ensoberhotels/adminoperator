@@ -1721,7 +1721,7 @@ class ItineraryController extends Controller
 										
 										<footer>
 											<div class="iti_foo_left">
-												<img src="http://cadmin.hotelthegrandview.com/public/asset/company_logo/'.$company->c_logo.'"/>
+												<img src="/public/asset/company_logo/'.$company->c_logo.'"/>
 											</div>
 											<div class="iti_foo_middil">
 												<b>'.$company->company_name.'</b><br>
