@@ -3490,8 +3490,8 @@ class ItineraryController extends Controller
 		$path = storage_path('app/quotations');
 		$fileName = $quotation_no. '.' . 'pdf' ;
 		//$pdf->save($path . '/' . $fileName);
-		\Storage::disk('s3')->put('quotations/'.$company_name.'/'.$fileName, $pdf->output(), 'public');
-		$url = \Storage::disk('s3')->url('quotations/'.$company_name.'/'.$fileName);
+		\Storage::disk('public')->put('quotations/'.$company_name.'/'.$fileName, $pdf->output(), 'public');
+		$url = \Storage::disk('public')->url('quotations/'.$company_name.'/'.$fileName);
     }
 	
 	public function savePdfVoucher($id){
