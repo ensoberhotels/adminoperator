@@ -1725,7 +1725,7 @@ class ItineraryController extends Controller
 											</div>
 											<div class="iti_foo_middil">
 												<b>'.$company->company_name.'</b><br>
-												'. $company->company_name.'
+												'. $company->c_logo.'
 											</div>
 											<div class="iti_foo_right">
 												<b>Contact Information</b><br>
