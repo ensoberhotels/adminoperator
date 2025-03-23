@@ -22,10 +22,10 @@
   </head>
   <!-- END: Head-->
   <body class="vertical-layout vertical-menu-collapsible page-header-dark vertical-modern-menu 1-column login-bg  blank-page blank-page" data-open="click" data-menu="vertical-modern-menu" data-col="1-column">
-    <div class="row">
+    <div class="row" style="background-color: #00000038;">
       <div class="col s12">
         <div class="container"><div id="login-page" class="row">
-  <div class="col s12 m6 l4 z-depth-4 card-panel border-radius-6 login-card bg-opacity-8">
+  <div class="col s12 m6 l4 z-depth-4 card-panel border-radius-6 login-card bg-opacity-8" style="background-color: #ffffff;">
     <form class="login-form" action="{{ URL::to('/operator/login/action') }}" method="post">
       <div class="row">
         <div class="input-field col s8">
