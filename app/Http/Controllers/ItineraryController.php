@@ -111,8 +111,9 @@ class ItineraryController extends Controller
     public function makeQuotation()
     {
         try {
-            $hotels = Hotel::All();
-			$citiesh = City::select('hotels.*','cities.id as city_id','cities.name as name')->join('hotels', 'cities.id', '=', 'hotels.city_id')->groupBy('cities.id')->get();
+			$log_user = session()->get('operator');
+            $hotels = Hotel::where('company_id', $log_user['company_id'])->get();
+			$citiesh = City::select('hotels.*','cities.id as city_id','cities.name as name')->join('hotels', 'cities.id', '=', 'hotels.city_id')->where('hotels.company_id', $log_user['company_id'])->groupBy('cities.id')->get();
             return view('operator/makequotation',compact('hotels', 'citiesh')); 
         } catch (ModelNotFoundException $e) {
             return $e;
